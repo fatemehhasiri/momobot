@@ -10,32 +10,36 @@ public class SquareView implements Iterable<Square>, Iterator<Square> {
 	private final Dimension boardSize;
 	private int counter;
 
-	public SquareView(Dimension boardSize) {
+	public SquareView(final Dimension boardSize) {
 		super();
 		this.boardSize = boardSize;
 	}
 
-	private int getNumSquares() {
-		return boardSize.height * boardSize.width;
-	}
-
+	@Override
 	public boolean hasNext() {
 		return counter < getNumSquares();
 	}
 
+	@Override
 	public Iterator<Square> iterator() {
 		counter = 0;
 		return this;
 	}
 
+	@Override
 	public Square next() {
-		int x = counter % boardSize.width;
-		int y = (counter - x) / boardSize.width;
+		final int x = counter % boardSize.width;
+		final int y = (counter - x) / boardSize.width;
 		counter++;
 		return SquareImpl.getInstance(x, y);
 	}
 
+	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();
+	}
+
+	private int getNumSquares() {
+		return boardSize.height * boardSize.width;
 	}
 }

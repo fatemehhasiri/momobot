@@ -1,5 +1,5 @@
 #FindBugs User Preferences
-#Tue May 10 14:05:57 JST 2011
+#Mon May 16 19:39:43 JST 2011
 detectorAppendingToAnObjectOutputStream=AppendingToAnObjectOutputStream|true
 detectorBadAppletConstructor=BadAppletConstructor|true
 detectorBadResultSetAccess=BadResultSetAccess|true
@@ -88,7 +88,7 @@ detectorMethodReturnCheck=MethodReturnCheck|true
 detectorMultithreadedInstanceAccess=MultithreadedInstanceAccess|true
 detectorMutableLock=MutableLock|true
 detectorMutableStaticFields=MutableStaticFields|false
-detectorNaming=Naming|true
+detectorNaming=Naming|false
 detectorNumberConstructor=NumberConstructor|true
 detectorOverridingEqualsNotSymmetrical=OverridingEqualsNotSymmetrical|true
 detectorPreferZeroLengthArrays=PreferZeroLengthArrays|true

@@ -25,16 +25,16 @@ public class RotatedIcon implements Icon {
 
 	private double angle;
 
-	private Icon icon;
+	private final Icon icon;
 
-	private Rotation rotate;
+	private final Rotation rotate;
 
 	/**
 	 *  Convenience constructor to create a RotatedIcon that is rotated DOWN.
 	 *
 	 *  @param icon  the Icon to rotate
 	 */
-	public RotatedIcon(Icon icon) {
+	public RotatedIcon(final Icon icon) {
 		this(icon, Rotation.UP);
 	}
 
@@ -47,7 +47,7 @@ public class RotatedIcon implements Icon {
 	 *  @param icon    the Icon to rotate
 	 *  @param angle   the angle of rotation
 	 */
-	public RotatedIcon(Icon icon, double angle) {
+	public RotatedIcon(final Icon icon, final double angle) {
 		this(icon, Rotation.ABOUT_CENTER);
 		this.angle = angle;
 	}
@@ -58,7 +58,7 @@ public class RotatedIcon implements Icon {
 	 *  @param icon    the Icon to rotate
 	 *  @param rotate  the direction of rotation
 	 */
-	public RotatedIcon(Icon icon, Rotation rotate) {
+	public RotatedIcon(final Icon icon, final Rotation rotate) {
 		this.icon = icon;
 		this.rotate = rotate;
 	}
@@ -86,6 +86,7 @@ public class RotatedIcon implements Icon {
 	 *
 	 *  @return the height of the icon in pixels.
 	 */
+	@Override
 	public int getIconHeight() {
 		if (rotate == Rotation.UPSIDE_DOWN || rotate == Rotation.ABOUT_CENTER) {
 			return icon.getIconHeight();
@@ -102,6 +103,7 @@ public class RotatedIcon implements Icon {
 	 *
 	 *  @return the width of the icon in pixels.
 	 */
+	@Override
 	public int getIconWidth() {
 		if (rotate == Rotation.UPSIDE_DOWN || rotate == Rotation.ABOUT_CENTER) {
 			return icon.getIconWidth();
@@ -126,13 +128,14 @@ public class RotatedIcon implements Icon {
 	 *  @param x the X coordinate of the icon's top-left corner
 	 *  @param y the Y coordinate of the icon's top-left corner
 	 */
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		Graphics2D g2 = (Graphics2D) g.create();
+	@Override
+	public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+		final Graphics2D g2 = (Graphics2D) g.create();
 
-		int cWidth = icon.getIconWidth() / 2;
-		int cHeight = icon.getIconHeight() / 2;
-		int xAdjustment = icon.getIconWidth() % 2 == 0 ? 0 : -1;
-		int yAdjustment = icon.getIconHeight() % 2 == 0 ? 0 : -1;
+		final int cWidth = icon.getIconWidth() / 2;
+		final int cHeight = icon.getIconHeight() / 2;
+		final int xAdjustment = icon.getIconWidth() % 2 == 0 ? 0 : -1;
+		final int yAdjustment = icon.getIconHeight() % 2 == 0 ? 0 : -1;
 
 		if (rotate == Rotation.DOWN) {
 			g2.translate(x + cHeight, y + cWidth);
@@ -147,10 +150,10 @@ public class RotatedIcon implements Icon {
 			g2.rotate(Math.toRadians(180));
 			icon.paintIcon(c, g2, xAdjustment - cWidth, yAdjustment - cHeight);
 		} else if (rotate == Rotation.ABOUT_CENTER) {
-			Rectangle r = new Rectangle(x, y, icon.getIconWidth(), icon.getIconHeight());
+			final Rectangle r = new Rectangle(x, y, icon.getIconWidth(), icon.getIconHeight());
 			g2.setClip(r);
-			AffineTransform original = g2.getTransform();
-			AffineTransform at = new AffineTransform();
+			final AffineTransform original = g2.getTransform();
+			final AffineTransform at = new AffineTransform();
 			at.concatenate(original);
 			at.rotate(Math.toRadians(angle), x + cWidth, y + cHeight);
 			g2.setTransform(at);

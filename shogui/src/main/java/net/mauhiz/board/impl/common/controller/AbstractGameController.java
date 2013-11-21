@@ -7,28 +7,31 @@ import net.mauhiz.board.model.data.Move;
 import net.mauhiz.board.model.data.PlayerType;
 
 public abstract class AbstractGameController implements GameController {
-	private final BoardIO boardIO;
 	protected Game game;
+	private final BoardIO boardIO;
 
 	//	private Map<PlayerType, Player> players = new TreeMap<PlayerType, Player>();
 
-	protected AbstractGameController(BoardIO display) {
+	protected AbstractGameController(final BoardIO display) {
 		super();
 		boardIO = display;
 		game = newGame();
 	}
 
+	@Override
 	public BoardIO getBoardIO() {
 		return boardIO;
 	}
 
+	@Override
 	public Game getGame() {
 		return game;
 	}
 
-	protected abstract Game newGame();
-
-	public PlayerType receiveMove(Move move) {
+	@Override
+	public PlayerType receiveMove(final Move move) {
 		return game.applyMove(move);
 	}
+
+	protected abstract Game newGame();
 }

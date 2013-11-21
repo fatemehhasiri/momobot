@@ -7,16 +7,16 @@ import net.mauhiz.board.model.data.NormalMove;
 
 public class CheckersGame extends AbstractGame {
 
-	public CheckersGame(CheckersRule rule) {
+	public CheckersGame(final CheckersRule rule) {
 		super(rule);
 	}
 
 	@Override
-	public CheckersPlayerType applyMove(Move move) {
+	public CheckersPlayerType applyMove(final Move move) {
 		Move realMove = move;
 
 		if (move instanceof NormalMove) {
-			NormalMove nmove = (NormalMove) move;
+			final NormalMove nmove = (NormalMove) move;
 			if (getRule().canPromote(nmove)) {
 				realMove = new PromoteMove(nmove);
 			}

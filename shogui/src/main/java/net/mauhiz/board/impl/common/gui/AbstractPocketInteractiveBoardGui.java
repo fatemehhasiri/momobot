@@ -15,7 +15,7 @@ public abstract class AbstractPocketInteractiveBoardGui extends AbstractInteract
 	protected PieceType selectedPiece;
 
 	@Override
-	public void addSelectAction(Square square) {
+	public void addSelectAction(final Square square) {
 		selectedPiece = null;
 		super.addSelectAction(square);
 	}
@@ -26,22 +26,14 @@ public abstract class AbstractPocketInteractiveBoardGui extends AbstractInteract
 	}
 
 	@Override
-	protected PocketGuiAssistant getAssistant() {
-		return (PocketGuiAssistant) super.getAssistant();
-	}
-
-	protected boolean isPieceSelected() {
-		return selectedPiece != null;
-	}
-
-	public void selectPieceToDrop(PlayerType player, PieceType piece) {
+	public void selectPieceToDrop(final PlayerType player, final PieceType piece) {
 		selectedPiece = piece;
 		super.cancelSelection();
 	}
 
 	@Override
-	public PlayerType sendMove(Move move) {
-		PlayerType nextTurn = super.sendMove(move);
+	public PlayerType sendMove(final Move move) {
+		final PlayerType nextTurn = super.sendMove(move);
 		if (nextTurn != null) {
 			Move pockMove = move;
 			if (move instanceof PromoteMove) {
@@ -55,5 +47,14 @@ public abstract class AbstractPocketInteractiveBoardGui extends AbstractInteract
 			}
 		}
 		return nextTurn;
+	}
+
+	@Override
+	protected PocketGuiAssistant getAssistant() {
+		return (PocketGuiAssistant) super.getAssistant();
+	}
+
+	protected boolean isPieceSelected() {
+		return selectedPiece != null;
 	}
 }

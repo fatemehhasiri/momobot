@@ -8,22 +8,22 @@ import net.mauhiz.board.model.BoardIO;
 
 public class GoGameController extends AbstractPocketGameController {
 
-    public GoGameController(BoardIO display) {
-        super(display);
-    }
+	public GoGameController(final BoardIO display) {
+		super(display);
+	}
 
-    @Override
-    public AbstractInteractiveBoardGui getBoardIO() {
-        return (AbstractInteractiveBoardGui) super.getBoardIO();
-    }
+	@Override
+	public AbstractInteractiveBoardGui getBoardIO() {
+		return (AbstractInteractiveBoardGui) super.getBoardIO();
+	}
 
-    @Override
-    public GoGame getGame() {
-        return (GoGame) game;
-    }
+	@Override
+	public GoGame getGame() {
+		return (GoGame) game;
+	}
 
-    @Override
-    protected GoGame newGame() {
-        return new GoGame(new GoRule());
-    }
+	@Override
+	protected GoGame newGame() {
+		return new GoGame(new GoRule());
+	}
 }

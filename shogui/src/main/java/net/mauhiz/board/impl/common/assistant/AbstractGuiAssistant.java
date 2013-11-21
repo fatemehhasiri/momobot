@@ -10,11 +10,11 @@ import net.mauhiz.util.IAction;
 
 public abstract class AbstractGuiAssistant implements GuiAssistant {
 
-	private final Map<Square, IAction> listeners = new HashMap<>();
-
 	protected BoardGui parent;
 
-	public AbstractGuiAssistant(BoardGui parent) {
+	private final Map<Square, IAction> listeners = new HashMap<>();
+
+	public AbstractGuiAssistant(final BoardGui parent) {
 		this.parent = parent;
 	}
 
@@ -28,13 +28,13 @@ public abstract class AbstractGuiAssistant implements GuiAssistant {
 		return parent;
 	}
 
-	protected IAction putListener(Square square, IAction action) {
+	protected IAction putListener(final Square square, final IAction action) {
 		synchronized (listeners) {
 			return listeners.put(square, action);
 		}
 	}
 
-	protected IAction removeListener(Square square) {
+	protected IAction removeListener(final Square square) {
 		synchronized (listeners) {
 			return listeners.remove(square);
 		}

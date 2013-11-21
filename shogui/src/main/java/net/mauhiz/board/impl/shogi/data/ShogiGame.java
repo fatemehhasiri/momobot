@@ -5,7 +5,7 @@ import net.mauhiz.board.model.data.Rule;
 
 public class ShogiGame extends AbstractGame {
 
-	public ShogiGame(Rule rule) {
+	public ShogiGame(final Rule rule) {
 		super(rule);
 	}
 }

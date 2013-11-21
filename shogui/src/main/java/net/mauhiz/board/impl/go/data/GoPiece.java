@@ -4,7 +4,7 @@ import net.mauhiz.board.impl.common.data.DefaultPiece;
 
 public class GoPiece extends DefaultPiece {
 
-	public GoPiece(GoPlayerType playerType, GoPieceType pieceType) {
+	public GoPiece(final GoPlayerType playerType, final GoPieceType pieceType) {
 		super(playerType, pieceType);
 	}
 

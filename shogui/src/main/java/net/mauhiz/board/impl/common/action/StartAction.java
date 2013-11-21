@@ -11,7 +11,7 @@ public class StartAction extends AbstractAction {
 
 	private final BoardGui gui;
 
-	public StartAction(BoardGui gui) {
+	public StartAction(final BoardGui gui) {
 		super();
 		this.gui = gui;
 	}

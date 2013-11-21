@@ -29,8 +29,8 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 
 		@Override
 		protected void trun() {
-			for (Composite pocket : pockets.values()) {
-				for (Control control : pocket.getChildren()) {
+			for (final Composite pocket : pockets.values()) {
+				for (final Control control : pocket.getChildren()) {
 					control.dispose();
 				}
 			}
@@ -45,7 +45,7 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 
 		@Override
 		protected void trun() {
-			for (Composite pocket : pockets.values()) {
+			for (final Composite pocket : pockets.values()) {
 				pocket.dispose();
 			}
 		}
@@ -54,12 +54,13 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 	private static final Logger LOG = Logger.getLogger(PocketSwtGuiAssistant.class);
 	protected final Map<PlayerType, Composite> pockets = new HashMap<>();
 
-	public PocketSwtGuiAssistant(PocketBoardGui parent) {
+	public PocketSwtGuiAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
-	public void addToPocket(PieceType pieceType, PlayerType player) {
-		Button button = new Button(pockets.get(player), SWT.PUSH);
+	@Override
+	public void addToPocket(final PieceType pieceType, final PlayerType player) {
+		final Button button = new Button(pockets.get(player), SWT.PUSH);
 		button.addSelectionListener(new SelectPocketAction(getParent(), pieceType, player));
 		decorate(button, pieceType, player);
 	}
@@ -70,24 +71,21 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 		new PocketRemover().launch(getShell().getDisplay());
 	}
 
+	@Override
 	public void clearPockets() {
 		new PocketClearer().launch(getShell().getDisplay());
 	}
 
 	@Override
-	protected PocketBoardGui getParent() {
-		return (PocketBoardGui) super.getParent();
-	}
-
-	@Override
-	public void initLayout(Dimension size) {
+	public void initLayout(final Dimension size) {
 		super.initLayout(size);
 		initPockets();
 	}
 
-	public void refreshPocketActions(PlayerType player) {
-		for (Entry<PlayerType, Composite> pocket : pockets.entrySet()) {
-			for (Control comp : pocket.getValue().getChildren()) {
+	@Override
+	public void refreshPocketActions(final PlayerType player) {
+		for (final Entry<PlayerType, Composite> pocket : pockets.entrySet()) {
+			for (final Control comp : pocket.getValue().getChildren()) {
 				if (comp instanceof Button) {
 					LOG.trace("Enabling for player: " + player + " button: " + comp);
 					comp.setEnabled(player == pocket.getKey());
@@ -96,7 +94,8 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 		}
 	}
 
-	public void removeFromPocket(PieceType piece, PlayerType player) {
+	@Override
+	public void removeFromPocket(final PieceType piece, final PlayerType player) {
 		throw new NotImplementedException();
 		//		LOG.debug("Removing from " + player + " pocket: " + piece);
 		//		for (Iterator<Entry<Button, Piece>> i = pocketButtons.entrySet().iterator(); i.hasNext();) {
@@ -109,5 +108,10 @@ public abstract class PocketSwtGuiAssistant extends SwtGuiAssistant implements P
 		//				break;
 		//			}
 		//		}
+	}
+
+	@Override
+	protected PocketBoardGui getParent() {
+		return (PocketBoardGui) super.getParent();
 	}
 }

@@ -23,13 +23,14 @@ public abstract class AbstractGame implements Game {
 	protected final List<Move> moves = new ArrayList<>();
 	protected final Rule rule;
 
-	public AbstractGame(Rule rule) {
+	public AbstractGame(final Rule rule) {
 		this.rule = rule;
 		boards.add(rule.newBoard());
 		moves.add(new InitMove(rule.getStartingPlayer()));
 	}
 
-	public PlayerType applyMove(Move move) {
+	@Override
+	public PlayerType applyMove(final Move move) {
 		if (move instanceof InitMove) {
 			return getRule().getStartingPlayer();
 		}
@@ -37,11 +38,11 @@ public abstract class AbstractGame implements Game {
 			LOG.warn("Wrong turn: " + move);
 			return null;
 		}
-		Board lastBoard = getLastBoard();
+		final Board lastBoard = getLastBoard();
 		if (rule.preCheck(move, lastBoard, this)) {
 			LOG.trace("Applying move: " + move);
 			LOG.trace("Cloning board: " + lastBoard);
-			Board clone = lastBoard.copy();
+			final Board clone = lastBoard.copy();
 			clone.applyMove(move);
 			if (rule.postCheck(move, clone, this)) {
 				boards.add(clone);
@@ -54,32 +55,39 @@ public abstract class AbstractGame implements Game {
 		return null;
 	}
 
-	public Board getBoard(int i) {
+	@Override
+	public Board getBoard(final int i) {
 		return boards.get(i);
 	}
 
+	@Override
 	public Board getLastBoard() {
 		return getBoard(boards.size() - 1);
 	}
 
+	@Override
 	public Move getLastMove() {
 		return getMove(moves.size() - 1);
 	}
 
-	public Move getMove(int i) {
+	@Override
+	public Move getMove(final int i) {
 		return moves.get(i);
 	}
 
+	@Override
 	public Iterable<Move> getMoves() {
 		return moves;
 	}
 
+	@Override
 	public Rule getRule() {
 		return rule;
 	}
 
+	@Override
 	public PlayerType getTurn() {
-		Move move = getLastMove();
+		final Move move = getLastMove();
 		return move instanceof InitMove ? rule.getStartingPlayer() : move.getPlayerType().other();
 	}
 

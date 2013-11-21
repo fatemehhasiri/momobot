@@ -23,23 +23,24 @@ import net.mauhiz.util.PerformanceMonitor;
 import org.apache.log4j.Logger;
 
 public class ShogiBoard extends AbstractBoard implements PocketBoard {
-	private static final Logger LOG = Logger.getLogger(ShogiBoard.class);
 	public static final int SIZE = 9;
+	private static final Logger LOG = Logger.getLogger(ShogiBoard.class);
 	protected final Map<ShogiPlayerType, List<ShogiPieceType>> pockets = new HashMap<>(2);
 
-	public ShogiBoard(ShogiRule rule) {
+	public ShogiBoard(final ShogiRule rule) {
 		super(rule);
-		for (ShogiPlayerType spt : ShogiPlayerType.values()) {
+		for (final ShogiPlayerType spt : ShogiPlayerType.values()) {
 			pockets.put(spt, new ArrayList<ShogiPieceType>());
 		}
 	}
 
-	public void applyMove(Move move) {
+	@Override
+	public void applyMove(final Move move) {
 		if (move instanceof Drop) {
-			PerformanceMonitor pm = new PerformanceMonitor();
-			Drop drop = (Drop) move;
-			ShogiPieceType pieceType = (ShogiPieceType) drop.getPieceType();
-			ShogiPlayerType playerType = (ShogiPlayerType) drop.getPlayerType();
+			final PerformanceMonitor pm = new PerformanceMonitor();
+			final Drop drop = (Drop) move;
+			final ShogiPieceType pieceType = (ShogiPieceType) drop.getPieceType();
+			final ShogiPlayerType playerType = (ShogiPlayerType) drop.getPlayerType();
 			if (pockets.get(playerType).remove(pieceType)) {
 				setPieceAt(drop.getTo(), new ShogiPiece(playerType, pieceType));
 			} else {
@@ -48,46 +49,47 @@ public class ShogiBoard extends AbstractBoard implements PocketBoard {
 			pm.perfLog("Drop applied: " + drop, getClass());
 
 		} else if (move instanceof NormalMove) {
-			PerformanceMonitor pm = new PerformanceMonitor();
-			NormalMove nmove = (NormalMove) move;
-			ShogiPiece capturedPiece = (ShogiPiece) movePiece(nmove.getFrom(), nmove.getTo());
+			final PerformanceMonitor pm = new PerformanceMonitor();
+			final NormalMove nmove = (NormalMove) move;
+			final ShogiPiece capturedPiece = (ShogiPiece) movePiece(nmove.getFrom(), nmove.getTo());
 
 			if (capturedPiece != null) {
-				ShogiPieceType capturedPieceType = capturedPiece.getPieceType().reversePromotion();
+				final ShogiPieceType capturedPieceType = capturedPiece.getPieceType().reversePromotion();
 				LOG.debug("Piece captured: " + capturedPiece);
-				List<ShogiPieceType> pocket = pockets.get(nmove.getPlayerType());
+				final List<ShogiPieceType> pocket = pockets.get(nmove.getPlayerType());
 				pocket.add(capturedPieceType);
 				Collections.sort(pocket);
 				LOG.trace("New pocket: " + pocket);
 			}
 			pm.perfLog("Normal move applied: " + nmove, getClass());
 		} else if (move instanceof PromoteMove) {
-			PerformanceMonitor pm = new PerformanceMonitor();
-			PromoteMove pmove = (PromoteMove) move;
-			NormalMove parentMove = pmove.getParentMove();
+			final PerformanceMonitor pm = new PerformanceMonitor();
+			final PromoteMove pmove = (PromoteMove) move;
+			final NormalMove parentMove = pmove.getParentMove();
 			applyMove(parentMove);
-			ShogiPiece moved = setPieceAt(parentMove.getTo(), null);
+			final ShogiPiece moved = setPieceAt(parentMove.getTo(), null);
 			setPieceAt(parentMove.getTo(), new ShogiPiece((ShogiPlayerType) pmove.getPlayerType(), moved.getPieceType()
 					.getPromotion()));
 			pm.perfLog("Promote move applied: " + pmove, getClass());
 		}
 	}
 
+	@Override
 	public ShogiBoard copy() {
-		ShogiBoard copy = new ShogiBoard(null);
+		final ShogiBoard copy = new ShogiBoard(null);
 		super.copyInto(copy);
-		for (Entry<ShogiPlayerType, List<ShogiPieceType>> ent : pockets.entrySet()) {
+		for (final Entry<ShogiPlayerType, List<ShogiPieceType>> ent : pockets.entrySet()) {
 			copy.pockets.put(ent.getKey(), new ArrayList<>(ent.getValue()));
 		}
 		return copy;
 	}
 
 	public Collection<ShogiPiece> getAllPocketPieces() {
-		List<ShogiPiece> pieces = new ArrayList<>();
-		for (Entry<ShogiPlayerType, List<ShogiPieceType>> ent : pockets.entrySet()) {
-			ShogiPlayerType playerType = ent.getKey();
+		final List<ShogiPiece> pieces = new ArrayList<>();
+		for (final Entry<ShogiPlayerType, List<ShogiPieceType>> ent : pockets.entrySet()) {
+			final ShogiPlayerType playerType = ent.getKey();
 
-			for (ShogiPieceType pt : ent.getValue()) {
+			for (final ShogiPieceType pt : ent.getValue()) {
 				pieces.add(new ShogiPiece(playerType, pt));
 			}
 		}
@@ -96,24 +98,26 @@ public class ShogiBoard extends AbstractBoard implements PocketBoard {
 	}
 
 	@Override
-	public ShogiPiece getPieceAt(Square square) {
+	public ShogiPiece getPieceAt(final Square square) {
 		return (ShogiPiece) super.getPieceAt(square);
 	}
 
-	public List<ShogiPieceType> getPocket(PlayerType player) {
+	@Override
+	public List<ShogiPieceType> getPocket(final PlayerType player) {
 		return pockets.get(player);
 	}
 
+	@Override
 	public Dimension getSize() {
 		return new Dimension(SIZE, SIZE);
 	}
 
-	public boolean hasPawnOnColumn(ShogiPlayerType pl, int x) {
-		for (Square square : getSquares()) {
+	public boolean hasPawnOnColumn(final ShogiPlayerType pl, final int x) {
+		for (final Square square : getSquares()) {
 			if (square.getX() != x) {
 				continue;
 			}
-			ShogiPiece op = getPieceAt(square);
+			final ShogiPiece op = getPieceAt(square);
 			if (op == null) {
 				continue;
 			}
@@ -126,7 +130,7 @@ public class ShogiBoard extends AbstractBoard implements PocketBoard {
 	}
 
 	@Override
-	public ShogiPiece setPieceAt(Square square, Piece piece) {
+	public ShogiPiece setPieceAt(final Square square, final Piece piece) {
 		return (ShogiPiece) super.setPieceAt(square, piece);
 	}
 }

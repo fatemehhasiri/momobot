@@ -24,7 +24,7 @@ public class SwtChessGuiAssistant extends SwtGuiAssistant implements IChessGuiAs
 		private final PieceType piece;
 		private final PlayerType player;
 
-		ButtonDecorator(Button button, PieceType piece, PlayerType player) {
+		ButtonDecorator(final Button button, final PieceType piece, final PlayerType player) {
 			this.button = button;
 			this.piece = piece;
 			this.player = player;
@@ -41,43 +41,44 @@ public class SwtChessGuiAssistant extends SwtGuiAssistant implements IChessGuiAs
 				button.setText("");
 			} else {
 				button.setText(piece.toString());
-				Display display = button.getDisplay();
-				Color black = display.getSystemColor(SWT.COLOR_BLACK);
-				Color white = display.getSystemColor(SWT.COLOR_WHITE);
+				final Display display = button.getDisplay();
+				final Color black = display.getSystemColor(SWT.COLOR_BLACK);
+				final Color white = display.getSystemColor(SWT.COLOR_WHITE);
 				button.setForeground(player == ChessPlayerType.BLACK ? black : white);
 			}
 		}
 	}
 
-	public SwtChessGuiAssistant(BoardGui parent) {
+	public SwtChessGuiAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(Button button, PieceType piece, PlayerType player) {
+	public void decorate(final Button button, final PieceType piece, final PlayerType player) {
 		new ButtonDecorator(button, piece, player).launch(button.getDisplay());
 	}
 
 	public boolean showPromotionDialog() {
-		MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+		final MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 		mb.setMessage("Promote?");
-		int buttonID = mb.open();
+		final int buttonID = mb.open();
 		switch (buttonID) {
-		case SWT.YES:
-			return true;
-		default:
-			return false;
+			case SWT.YES:
+				return true;
+			default:
+				return false;
 		}
 	}
 
-	public void showPromotionDialog(ChessPieceType[] promotions, NormalMove nmove) {
-		Shell popup = new Shell(getShell(), SWT.ICON_QUESTION);
+	@Override
+	public void showPromotionDialog(final ChessPieceType[] promotions, final NormalMove nmove) {
+		final Shell popup = new Shell(getShell(), SWT.ICON_QUESTION);
 		popup.setLayout(new GridLayout(promotions.length, true));
 		popup.setText("Promotion?");
 		popup.setActive();
 
 		for (final ChessPieceType promotion : promotions) {
-			Button promoButton = new Button(popup, SWT.PUSH);
+			final Button promoButton = new Button(popup, SWT.PUSH);
 			promoButton.setText(promotion.getName());
 			promoButton.setToolTipText(promotion.name());
 			promoButton.addSelectionListener(new PromoteAction(nmove, getParent(), promotion));

@@ -14,10 +14,25 @@ import net.mauhiz.board.model.data.Square;
  * @author mauhiz
  */
 public class CheckersGui extends AbstractInteractiveBoardGui {
-	public static void main(String... args) {
-		CheckersGui gui = new CheckersGui();
+	public static void main(final String... args) {
+		final CheckersGui gui = new CheckersGui();
 		gui.assistant = new CheckersSwingAssistant(gui);
 		gui.getAssistant().start();
+	}
+
+	@Override
+	public CheckersRule getRule() {
+		return (CheckersRule) super.getRule();
+	}
+
+	@Override
+	public Color getSquareBgcolor(final Square square) {
+		return (square.getX() + square.getY()) % 2 == 0 ? Color.DARK_GRAY : Color.LIGHT_GRAY;
+	}
+
+	@Override
+	public String getWindowTitle() {
+		return "mauhiz' Checkers";
 	}
 
 	@Override
@@ -26,30 +41,17 @@ public class CheckersGui extends AbstractInteractiveBoardGui {
 	}
 
 	@Override
-	public CheckersRule getRule() {
-		return (CheckersRule) super.getRule();
-	}
-
-	public Color getSquareBgcolor(Square square) {
-		return (square.getX() + square.getY()) % 2 == 0 ? Color.DARK_GRAY : Color.LIGHT_GRAY;
-	}
-
-	public String getWindowTitle() {
-		return "mauhiz' Checkers";
-	}
-
-	@Override
 	protected CheckersGameController newController() {
 		return new CheckersGameController(this);
 	}
 
 	@Override
-	protected void refreshSquare(Square square) {
-		Piece op = getBoard().getPieceAt(square);
+	protected void refreshSquare(final Square square) {
+		final Piece op = getBoard().getPieceAt(square);
 
 		if (isSquareSelected()) { // from the board
 			// available destinations
-			Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
+			final Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
 
 			if (move != null) {
 				addMoveAction(square, move);

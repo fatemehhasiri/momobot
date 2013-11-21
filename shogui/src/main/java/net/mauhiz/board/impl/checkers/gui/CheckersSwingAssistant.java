@@ -11,12 +11,12 @@ import net.mauhiz.board.model.gui.BoardGui;
 
 public class CheckersSwingAssistant extends SwingGuiAssistant {
 
-	public CheckersSwingAssistant(BoardGui parent) {
+	public CheckersSwingAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	protected void decorate(RotatingJButton button, PieceType piece, PlayerType player) {
+	protected void decorate(final RotatingJButton button, final PieceType piece, final PlayerType player) {
 		if (piece == null) {
 			button.setText("");
 		} else {

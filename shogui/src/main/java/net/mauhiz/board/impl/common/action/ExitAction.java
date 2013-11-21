@@ -11,7 +11,7 @@ import net.mauhiz.util.ThreadManager;
 public class ExitAction extends AbstractAction {
 	private final BoardGui gui;
 
-	public ExitAction(BoardGui gui) {
+	public ExitAction(final BoardGui gui) {
 		super();
 		this.gui = gui;
 	}

@@ -89,8 +89,8 @@ public enum ShogiPieceType implements PieceType {
 		}
 	};
 
-	public static ShogiPieceType fromKanji(UtfChar piece) {
-		for (ShogiPieceType spt : values()) {
+	public static ShogiPieceType fromKanji(final UtfChar piece) {
+		for (final ShogiPieceType spt : values()) {
 			if (spt.kanji.equals(piece)) {
 				return spt;
 			}
@@ -100,7 +100,7 @@ public enum ShogiPieceType implements PieceType {
 
 	private UtfChar kanji;
 
-	private ShogiPieceType(String kanji) {
+	private ShogiPieceType(final String kanji) {
 		this.kanji = UtfChar.charAt(kanji, 0);
 	}
 
@@ -108,6 +108,7 @@ public enum ShogiPieceType implements PieceType {
 		return getPromotion() != null;
 	}
 
+	@Override
 	public String getName() {
 		return toString();
 	}

@@ -29,32 +29,32 @@ public class BoardManager {
 	private final Map<String, RemoteBoardAdapter> games = new HashMap<>();
 	private final Map<String, Set<IrcOpponent>> opponents = new HashMap<>();
 
-	private String findGame(RemoteBoardAdapter rba) {
-		for (Entry<String, RemoteBoardAdapter> ent : games.entrySet()) {
-			if (ent.getValue().equals(rba)) {
-				return ent.getKey();
-			}
-
-		}
-		return null;
-	}
-
-	public void receiveMove(String gameId, String moveStr) throws IOException {
-		RemoteBoardAdapter rba = games.get(gameId);
+	public void receiveMove(final String gameId, final String moveStr) throws IOException {
+		final RemoteBoardAdapter rba = games.get(gameId);
 
 		if (rba != null) {
 			rba.readMove(moveStr);
 		}
 	}
 
-	public void sendMove(RemoteBoardAdapter rba, Move move) {
-		String gameId = findGame(rba);
+	public void sendMove(final RemoteBoardAdapter rba, final Move move) {
+		final String gameId = findGame(rba);
 
 		if (gameId != null) {
-			for (IrcOpponent opponent : opponents.get(gameId)) {
-				Ctcp msg = new CtcpMove(null, opponent.opponentUser, opponent.server, move);
+			for (final IrcOpponent opponent : opponents.get(gameId)) {
+				final Ctcp msg = new CtcpMove(null, opponent.opponentUser, opponent.server, move);
 				opponent.control.sendMsg(msg);
 			}
 		}
+	}
+
+	private String findGame(final RemoteBoardAdapter rba) {
+		for (final Entry<String, RemoteBoardAdapter> ent : games.entrySet()) {
+			if (ent.getValue().equals(rba)) {
+				return ent.getKey();
+			}
+
+		}
+		return null;
 	}
 }

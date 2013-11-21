@@ -7,7 +7,7 @@ import net.mauhiz.board.model.BoardIO;
 import net.mauhiz.board.model.data.Game;
 
 public class ChessGameController extends AbstractGameController {
-	public ChessGameController(BoardIO display) {
+	public ChessGameController(final BoardIO display) {
 		super(display);
 	}
 

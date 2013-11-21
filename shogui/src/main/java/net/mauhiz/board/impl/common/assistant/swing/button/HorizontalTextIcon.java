@@ -36,23 +36,8 @@ public class HorizontalTextIcon extends TextIcon {
 	 *  @param component  the component to which the icon will be added
 	 *  @param text       the text to be rendered on the Icon
 	 */
-	public HorizontalTextIcon(JComponent component, String text) {
+	public HorizontalTextIcon(final JComponent component, final String text) {
 		super(component, text);
-	}
-
-	/**
-	 *  Calculate the size of the Icon using the FontMetrics of the Font.
-	 */
-	@Override
-	protected void calculateIconDimensions() {
-		Font lfont = getFont();
-
-		FontMetrics fm = component.getFontMetrics(lfont);
-
-		iconWidth = fm.stringWidth(text) + padding * 2;
-		iconHeight = fm.getHeight();
-
-		component.revalidate();
 	}
 
 	/**
@@ -63,15 +48,31 @@ public class HorizontalTextIcon extends TextIcon {
 	*  @param x the X coordinate of the icon's top-left corner
 	*  @param y the Y coordinate of the icon's top-left corner
 	*/
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		Graphics2D g2 = (Graphics2D) g.create();
+	@Override
+	public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
+		final Graphics2D g2 = (Graphics2D) g.create();
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2.setFont(getFont());
 		g2.setColor(getForeground());
 		synchronized (TextIcon.class) {
-			FontMetrics fm = g2.getFontMetrics();
+			final FontMetrics fm = g2.getFontMetrics();
 			g2.translate(x, y + fm.getAscent());
 		}
 		g2.drawString(text, padding, 0);
+	}
+
+	/**
+	 *  Calculate the size of the Icon using the FontMetrics of the Font.
+	 */
+	@Override
+	protected void calculateIconDimensions() {
+		final Font lfont = getFont();
+
+		final FontMetrics fm = component.getFontMetrics(lfont);
+
+		iconWidth = fm.stringWidth(text) + padding * 2;
+		iconHeight = fm.getHeight();
+
+		component.revalidate();
 	}
 }

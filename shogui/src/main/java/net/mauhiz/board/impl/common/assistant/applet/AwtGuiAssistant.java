@@ -29,25 +29,26 @@ import org.apache.log4j.Logger;
 
 public abstract class AwtGuiAssistant extends AbstractGuiAssistant {
 	private static final Logger LOG = Logger.getLogger(AwtGuiAssistant.class);
-	private final Map<Square, RotatingJButton> buttons = new HashMap<>();
 	protected final JApplet frame = new JApplet();
 	protected final JPanel panel = new JPanel();
+	private final Map<Square, RotatingJButton> buttons = new HashMap<>();
 
-	public AwtGuiAssistant(BoardGui parent) {
+	public AwtGuiAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void addToHistory(String value, IAction action) {
+	public void addToHistory(final String value, final IAction action) {
 		throw new NotImplementedException();
 	}
 
-	public void appendSquares(Iterable<Square> squares, Dimension size) {
+	@Override
+	public void appendSquares(final Iterable<Square> squares, final Dimension size) {
 		panel.setVisible(false);
-		for (Square square : squares) {
-			int x = square.getX();
-			int y = size.height - square.getY() - 1;
-			RotatingJButton button = new RotatingJButton();
+		for (final Square square : squares) {
+			final int x = square.getX();
+			final int y = size.height - square.getY() - 1;
+			final RotatingJButton button = new RotatingJButton();
 			buttons.put(SquareImpl.getInstance(x, y), button);
 			button.setBackground(getParent().getSquareBgcolor(square));
 			button.setSize(30, 30);
@@ -56,22 +57,23 @@ public abstract class AwtGuiAssistant extends AbstractGuiAssistant {
 		panel.setVisible(true);
 	}
 
+	@Override
 	public void clear() {
-		for (RotatingJButton button : buttons.values()) {
+		for (final RotatingJButton button : buttons.values()) {
 			panel.remove(button);
 		}
 		buttons.clear();
 		clearListeners();
 	}
 
+	@Override
 	public void close() {
 		frame.destroy();
 	}
 
-	protected abstract void decorate(RotatingJButton button, PieceType piece, PlayerType player);
-
-	public void decorate(Square square, Piece piece) {
-		RotatingJButton button = getButton(square);
+	@Override
+	public void decorate(final Square square, final Piece piece) {
+		final RotatingJButton button = getButton(square);
 		if (piece == null) {
 			decorate(button, null, null);
 		} else {
@@ -79,22 +81,24 @@ public abstract class AwtGuiAssistant extends AbstractGuiAssistant {
 		}
 	}
 
-	public void disableSquare(Square square) {
-		ActionListener action = removeListener(square);
+	@Override
+	public void disableSquare(final Square square) {
+		final ActionListener action = removeListener(square);
 		if (action != null) {
-			RotatingJButton button = getButton(square);
+			final RotatingJButton button = getButton(square);
 			button.removeActionListener(action);
 			button.setEnabled(false);
 		}
 	}
 
-	public void enableSquare(Square square, IAction action) {
-		IAction former = putListener(square, action);
+	@Override
+	public void enableSquare(final Square square, final IAction action) {
+		final IAction former = putListener(square, action);
 		if (ObjectUtils.equals(former, action)) {
 			return;
 		}
 
-		RotatingJButton button = getButton(square);
+		final RotatingJButton button = getButton(square);
 		if (former == null) {
 			LOG.debug("Square: " + square + ", enabled with action: " + action);
 			button.addActionListener(action);
@@ -106,52 +110,58 @@ public abstract class AwtGuiAssistant extends AbstractGuiAssistant {
 		}
 	}
 
-	public RotatingJButton getButton(Square at) {
+	public RotatingJButton getButton(final Square at) {
 		return buttons.get(at);
 	}
 
+	@Override
 	public void initDisplay() {
 		initMenu();
 		frame.setName(getParent().getWindowTitle());
 
-		Dimension defaultSize = getParent().getDefaultSize();
+		final Dimension defaultSize = getParent().getDefaultSize();
 		frame.setSize(defaultSize);
 
-		Dimension minSize = getParent().getMinimumSize();
+		final Dimension minSize = getParent().getMinimumSize();
 		frame.setMinimumSize(minSize);
 
 		frame.add(panel);
 		frame.setVisible(true);
 	}
 
-	public void initLayout(Dimension size) {
+	@Override
+	public void initLayout(final Dimension size) {
 
 		/* layout */
-		GridLayout gridLayout = new GridLayout(size.width, size.height, 0, 0);
+		final GridLayout gridLayout = new GridLayout(size.width, size.height, 0, 0);
 		panel.setLayout(gridLayout);
 	}
 
-	protected void initMenu() {
-
-		/* menu */
-		Container menuBar = new Container();
-		menuBar.setLayout(new GridLayout(1, 2));
-
-		JButton fileStartItem = new JButton("New Game");
-		fileStartItem.addActionListener(new StartAction(getParent()));
-		menuBar.add(fileStartItem);
-
-		JButton fileExitItem = new JButton("Exit");
-		fileExitItem.addActionListener(new ExitAction(getParent()));
-		menuBar.add(fileExitItem);
-		frame.add(menuBar);
-	}
-
+	@Override
 	public void refreshBoard() {
 		panel.validate();
 	}
 
+	@Override
 	public void start() {
 		initDisplay();
+	}
+
+	protected abstract void decorate(RotatingJButton button, PieceType piece, PlayerType player);
+
+	protected void initMenu() {
+
+		/* menu */
+		final Container menuBar = new Container();
+		menuBar.setLayout(new GridLayout(1, 2));
+
+		final JButton fileStartItem = new JButton("New Game");
+		fileStartItem.addActionListener(new StartAction(getParent()));
+		menuBar.add(fileStartItem);
+
+		final JButton fileExitItem = new JButton("Exit");
+		fileExitItem.addActionListener(new ExitAction(getParent()));
+		menuBar.add(fileExitItem);
+		frame.add(menuBar);
 	}
 }

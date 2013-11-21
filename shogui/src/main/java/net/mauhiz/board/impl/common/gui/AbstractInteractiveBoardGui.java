@@ -26,72 +26,56 @@ public abstract class AbstractInteractiveBoardGui implements InteractiveBoardGui
 	protected GameController controller;
 	protected Square selectedSquare;
 
-	public void addCancelAction(Square square) {
+	@Override
+	public void addCancelAction(final Square square) {
 		LOG.trace("Adding cancel action to square: " + square);
 		enableSquare(square, CancelAction.getInstance(this));
 	}
 
-	public void addMoveAction(Square square, Move move) {
+	@Override
+	public void addMoveAction(final Square square, final Move move) {
 		LOG.trace("Adding move action to square: " + square);
 		enableSquare(square, new MoveAction(this, move));
 	}
 
-	public void addSelectAction(Square square) {
+	@Override
+	public void addSelectAction(final Square square) {
 		LOG.trace("Adding select action to square: " + square);
 		enableSquare(square, new SelectSquareAction(this, square));
 	}
 
-	private void appendSquares(final GuiAssistant pAssistant, final Dimension size) {
-		pAssistant.appendSquares(getBoard().getSquares(), size);
-
-	}
-
+	@Override
 	public void cancelSelection() {
 		LOG.trace("Cancelling selection: " + selectedSquare);
 		selectSquare(null);
 	}
 
+	@Override
 	public void close() {
 		LOG.info("Closing GUI");
 		getAssistant().close();
 	}
 
-	public void disableSquare(Square square) {
+	@Override
+	public void disableSquare(final Square square) {
 		getAssistant().disableSquare(square);
 	}
 
-	public void enableSquare(Square square, IAction action) {
+	public void enableSquare(final Square square, final IAction action) {
 		getAssistant().enableSquare(square, action);
 	}
 
-	protected GuiAssistant getAssistant() {
-		return assistant;
-	}
-
-	protected Board getBoard() {
-		return getGame().getLastBoard();
-	}
-
-	protected GameController getController() {
-		return controller;
-	}
-
+	@Override
 	public Dimension getDefaultSize() {
 		return new Dimension(400, 400);
 	}
 
-	protected Game getGame() {
-		return getController().getGame();
-	}
-
+	@Override
 	public Dimension getMinimumSize() {
 		return new Dimension(0, 0);
 	}
 
-	protected Rule getRule() {
-		return getGame().getRule();
-	}
-
+	@Override
 	public Square getSelectedSquare() {
 		return selectedSquare;
 	}
@@ -100,12 +84,7 @@ public abstract class AbstractInteractiveBoardGui implements InteractiveBoardGui
 		return getGame().getTurn();
 	}
 
-	protected boolean isSquareSelected() {
-		return getSelectedSquare() != null;
-	}
-
-	protected abstract GameController newController();
-
+	@Override
 	public void newGame() {
 		LOG.info("Starting new game");
 		controller = newController();
@@ -127,8 +106,8 @@ public abstract class AbstractInteractiveBoardGui implements InteractiveBoardGui
 
 			@Override
 			public void mrun() {
-				Board board = getBoard();
-				for (Square square : board.getSquares()) {
+				final Board board = getBoard();
+				for (final Square square : board.getSquares()) {
 					refreshSquare(square);
 				}
 				if (isSquareSelected()) {
@@ -147,25 +126,58 @@ public abstract class AbstractInteractiveBoardGui implements InteractiveBoardGui
 
 			@Override
 			public void mrun() {
-				Board board = getBoard();
-				for (Square square : board.getSquares()) {
+				final Board board = getBoard();
+				for (final Square square : board.getSquares()) {
 					assistant.decorate(square, board.getPieceAt(square));
 				}
 			}
 		}.launch();
 	}
 
-	protected abstract void refreshSquare(Square square);
-
-	public void selectSquare(Square at) {
+	@Override
+	public void selectSquare(final Square at) {
 		selectedSquare = at;
 		refreshActions();
 	}
 
-	public PlayerType sendMove(Move move) {
-		PlayerType player = getController().receiveMove(move);
+	@Override
+	public PlayerType sendMove(final Move move) {
+		final PlayerType player = getController().receiveMove(move);
 		cancelSelection();
 		refreshDecorations();
 		return player;
+	}
+
+	protected GuiAssistant getAssistant() {
+		return assistant;
+	}
+
+	protected Board getBoard() {
+		return getGame().getLastBoard();
+	}
+
+	protected GameController getController() {
+		return controller;
+	}
+
+	protected Game getGame() {
+		return getController().getGame();
+	}
+
+	protected Rule getRule() {
+		return getGame().getRule();
+	}
+
+	protected boolean isSquareSelected() {
+		return getSelectedSquare() != null;
+	}
+
+	protected abstract GameController newController();
+
+	protected abstract void refreshSquare(Square square);
+
+	private void appendSquares(final GuiAssistant pAssistant, final Dimension size) {
+		pAssistant.appendSquares(getBoard().getSquares(), size);
+
 	}
 }

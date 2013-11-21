@@ -9,13 +9,13 @@ import net.mauhiz.board.model.data.Game;
 public class PsnAdapter implements MoveReader {
 
 	@Override
-	public Game readAll(InputStream data) throws IOException {
+	public Game readAll(final InputStream data) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void readNext(InputStream data, Game game) throws IOException {
+	public void readNext(final InputStream data, final Game game) throws IOException {
 		// TODO Auto-generated method stub
 	}
 }

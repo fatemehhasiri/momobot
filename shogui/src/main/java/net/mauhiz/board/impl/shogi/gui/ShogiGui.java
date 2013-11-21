@@ -22,27 +22,22 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 
 	private static final Logger LOG = Logger.getLogger(ShogiGui.class);
 
-	public static void main(String... args) {
-		ShogiGui gui = new ShogiGui();
+	public static void main(final String... args) {
+		final ShogiGui gui = new ShogiGui();
 		//		gui.assistant = new ShogiSwtAssistant(gui);
 		gui.assistant = new ShogiSwingAssistant(gui);
 		LOG.debug("Starting assistant: " + gui.getAssistant());
 		gui.getAssistant().start();
 	}
 
-	public void afterPromotionDialog(NormalMove move, boolean promote) {
+	public void afterPromotionDialog(final NormalMove move, final boolean promote) {
 		// do not call this.sendMove again here - it would show the promotion dialog again
 		if (promote) {
-			Move promotion = getController().convertToPromotion(move);
+			final Move promotion = getController().convertToPromotion(move);
 			super.sendMove(promotion);
 		} else {
 			super.sendMove(move);
 		}
-	}
-
-	@Override
-	protected IShogiGuiAssistant getAssistant() {
-		return (IShogiGuiAssistant) super.getAssistant();
 	}
 
 	@Override
@@ -70,12 +65,31 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 		return (ShogiRule) super.getRule();
 	}
 
-	public Color getSquareBgcolor(Square square) {
+	@Override
+	public Color getSquareBgcolor(final Square square) {
 		return Color.decode("0xFFCC66");
 	}
 
+	@Override
 	public String getWindowTitle() {
 		return "Shogui";
+	}
+
+	@Override
+	public PlayerType sendMove(final Move move) {
+		if (move instanceof NormalMove) {
+			final NormalMove nmove = (NormalMove) move;
+			if (getRule().canPromote(getBoard(), getSelectedSquare(), nmove.getTo())) {
+				getAssistant().showPromotionDialog(nmove);
+				return null; // do not send move yet
+			}
+		}
+		return super.sendMove(move);
+	}
+
+	@Override
+	protected IShogiGuiAssistant getAssistant() {
+		return (IShogiGuiAssistant) super.getAssistant();
 	}
 
 	@Override
@@ -84,9 +98,9 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 	}
 
 	@Override
-	protected void refreshSquare(Square square) {
-		PerformanceMonitor sw = new PerformanceMonitor();
-		Piece piece = getBoard().getPieceAt(square);
+	protected void refreshSquare(final Square square) {
+		final PerformanceMonitor sw = new PerformanceMonitor();
+		final Piece piece = getBoard().getPieceAt(square);
 
 		if (piece != null && piece.getPlayerType() == getTurn()) {
 			addSelectAction(square);
@@ -96,7 +110,7 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 
 		if (isSquareSelected()) { // from the board
 			// available destinations
-			Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
+			final Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
 
 			if (move != null) {
 				sw.perfLog("Move generated: " + move, getClass());
@@ -106,7 +120,7 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 				return;
 			}
 		} else if (isPieceSelected()) { // from the pocket
-			Drop drop = getRule().generateMove(selectedPiece, square, getGame());
+			final Drop drop = getRule().generateMove(selectedPiece, square, getGame());
 
 			if (drop != null) {
 				sw.perfLog("Drop generated: " + drop, getClass());
@@ -118,17 +132,5 @@ public class ShogiGui extends AbstractPocketInteractiveBoardGui {
 		}
 		// no action : disable button
 		disableSquare(square);
-	}
-
-	@Override
-	public PlayerType sendMove(Move move) {
-		if (move instanceof NormalMove) {
-			NormalMove nmove = (NormalMove) move;
-			if (getRule().canPromote(getBoard(), getSelectedSquare(), nmove.getTo())) {
-				getAssistant().showPromotionDialog(nmove);
-				return null; // do not send move yet
-			}
-		}
-		return super.sendMove(move);
 	}
 }

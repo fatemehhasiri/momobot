@@ -4,7 +4,7 @@ import net.mauhiz.board.impl.common.data.DefaultPiece;
 
 public class CheckersPiece extends DefaultPiece {
 
-	public CheckersPiece(CheckersPlayerType playerType, CheckersPieceType pieceType) {
+	public CheckersPiece(final CheckersPlayerType playerType, final CheckersPieceType pieceType) {
 		super(playerType, pieceType);
 	}
 

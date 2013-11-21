@@ -8,12 +8,12 @@ import net.mauhiz.board.model.data.Game;
 
 public class CheckersGameController extends AbstractGameController {
 
-    public CheckersGameController(BoardIO display) {
-        super(display);
-    }
-    
-    @Override
-    protected Game newGame() {
-    	return new CheckersGame(new CheckersRule());
-    }
+	public CheckersGameController(final BoardIO display) {
+		super(display);
+	}
+
+	@Override
+	protected Game newGame() {
+		return new CheckersGame(new CheckersRule());
+	}
 }

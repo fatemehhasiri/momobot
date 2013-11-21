@@ -15,15 +15,111 @@ import net.mauhiz.board.model.data.Square;
 
 public class ChessRule extends AbstractRule {
 
-	static boolean isPromotionZone(ChessPlayerType pl, Square here) {
-		return ChessPlayerType.WHITE.equals(pl) ? here.getY() == 7 : here.getY() == 0;
+	static boolean isPromotionZone(final ChessPlayerType pl, final Square here) {
+		return ChessPlayerType.WHITE == pl ? here.getY() == 7 : here.getY() == 0;
 	}
 
-	private boolean canEnPassant(Board board, Square from, Square to, PlayerType player) {
+	public boolean canPromote(final ChessPiece op, final Square to) {
+		return ChessPieceType.PAWN == op.getPieceType() && isPromotionZone(op.getPlayerType(), to);
+	}
+
+	@Override
+	public Move generateMove(final Square from, final Square to, final Game game) {
+		final Move move = super.generateMove(from, to, game);
+
+		if (move == null && game instanceof ChessGame) {
+			// try to castle
+			return generateCastle(from, to, (ChessGame) game);
+		}
+
+		return move;
+	}
+
+	@Override
+	public ChessPlayerType[] getPlayerTypes() {
+		return ChessPlayerType.values();
+	}
+
+	@Override
+	public ChessPlayerType getStartingPlayer() {
+		return ChessPlayerType.WHITE;
+	}
+
+	@Override
+	public void initPieces(final Board board) {
+		for (final Square square : board.getSquares()) {
+			final int j = square.getY();
+			final ChessPlayerType pl = j <= 2 ? ChessPlayerType.WHITE : ChessPlayerType.BLACK;
+
+			if (j == 0 || j == 7) {
+				final int i = square.getX();
+				if (i == 0 || i == 7) {
+					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.ROOK));
+				} else if (i == 1 || i == 6) {
+					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.KNIGHT));
+				} else if (i == 2 || i == 5) {
+					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.BISHOP));
+				} else if (i == 3) {
+					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.QUEEN));
+				} else if (i == 4) {
+					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.KING));
+				}
+			} else if (j == 1 || j == 6) {
+				board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.PAWN));
+			}
+		}
+	}
+
+	public boolean isCheck(final PlayerType player, final Board board) {
+		final Square kingSquare = board.findSquare(player, ChessPieceType.KING);
+		if (kingSquare == null) {
+			return false;
+		}
+		return isCheck(player, board, kingSquare);
+	}
+
+	public boolean isPawnMove(final Square from, final Square to, final PlayerType player) {
+		if (AbstractBoard.getXmove(from, to) == 0 && isForward(from, to, player)) {
+			return from.getY() == (player == ChessPlayerType.WHITE ? 1 : 6) ? abs(AbstractBoard.getYmove(from, to)) <= 2
+					: abs(AbstractBoard.getYmove(from, to)) == 1;
+		}
+		return false;
+	}
+
+	@Override
+	public ChessBoard newBoard() {
+		return new ChessBoard(this);
+	}
+
+	@Override
+	public boolean postCheck(final Move move, final Board newBoard, final Game game) {
+		if (isCheck(move.getPlayerType(), newBoard)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean preCheck(final Move move, final Board oldBoard, final Game game) {
+		if (move instanceof NormalMove) {
+			final NormalMove nmove = (NormalMove) move;
+			return canGo(oldBoard, nmove.getFrom(), nmove.getTo());
+		} else if (move instanceof Castle) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean isForward(final Square from, final Square to, final PlayerType player) {
+		return from.getY() != to.getY() && player == ChessPlayerType.WHITE ^ from.getY() > to.getY();
+	}
+
+	private boolean canEnPassant(final Board board, final Square from, final Square to, final PlayerType player) {
 
 		if (isFrontCorner(from, to, player)) {
-			Square enPassant = SquareImpl.getInstance(to.getX(), from.getY());
-			Piece couic = board.getPieceAt(enPassant);
+			final Square enPassant = SquareImpl.getInstance(to.getX(), from.getY());
+			final Piece couic = board.getPieceAt(enPassant);
 			if (couic == null || couic.getPieceType() != ChessPieceType.PAWN || couic.getPlayerType() == player) {
 				return false;
 			}
@@ -40,15 +136,15 @@ public class ChessRule extends AbstractRule {
 	 *            is different from 'from'
 	 * @return
 	 */
-	private boolean canGo(Board b, Square from, Square to) {
-		Piece op = b.getPieceAt(from);
-		PlayerType player = op.getPlayerType();
+	private boolean canGo(final Board b, final Square from, final Square to) {
+		final Piece op = b.getPieceAt(from);
+		final PlayerType player = op.getPlayerType();
 
 		if (b.isFriendlyPieceOn(player, to)) {
 			return false;
 		}
 
-		ChessPieceType pieceType = (ChessPieceType) op.getPieceType();
+		final ChessPieceType pieceType = (ChessPieceType) op.getPieceType();
 
 		switch (pieceType) {
 			case PAWN:
@@ -73,19 +169,15 @@ public class ChessRule extends AbstractRule {
 		}
 	}
 
-	public boolean canPromote(ChessPiece op, Square to) {
-		return ChessPieceType.PAWN == op.getPieceType() && isPromotionZone(op.getPlayerType(), to);
-	}
-
-	private Castle generateCastle(Square from, Square to, ChessGame game) {
-		Piece wannabeKing = game.getLastBoard().getPieceAt(from);
+	private Castle generateCastle(final Square from, final Square to, final ChessGame game) {
+		final Piece wannabeKing = game.getLastBoard().getPieceAt(from);
 		if (wannabeKing == null || wannabeKing.getPieceType() != ChessPieceType.KING
 				|| wannabeKing.getPlayerType() != game.getTurn()) {
 			return null;
 		}
 		if (abs(AbstractBoard.getXmove(from, to)) == 2 && AbstractBoard.getYmove(from, to) == 0) {
-			boolean great = AbstractBoard.getXmove(from, to) < 0;
-			Square rookStart = SquareImpl.getInstance(great ? 0 : 7, from.getY());
+			final boolean great = AbstractBoard.getXmove(from, to) < 0;
+			final Square rookStart = SquareImpl.getInstance(great ? 0 : 7, from.getY());
 			if (game.getLastBoard().isObstruction(from, rookStart)) {
 				return null;
 			}
@@ -104,102 +196,16 @@ public class ChessRule extends AbstractRule {
 		return null;
 	}
 
-	@Override
-	public Move generateMove(Square from, Square to, Game game) {
-		Move move = super.generateMove(from, to, game);
+	private boolean isCheck(final PlayerType player, final Board board, final Square kingSquare) {
 
-		if (move == null && game instanceof ChessGame) {
-			// try to castle
-			return generateCastle(from, to, (ChessGame) game);
-		}
-
-		return move;
-	}
-
-	public ChessPlayerType[] getPlayerTypes() {
-		return ChessPlayerType.values();
-	}
-
-	public ChessPlayerType getStartingPlayer() {
-		return ChessPlayerType.WHITE;
-	}
-
-	public void initPieces(Board board) {
-		for (Square square : board.getSquares()) {
-			int j = square.getY();
-			ChessPlayerType pl = j <= 2 ? ChessPlayerType.WHITE : ChessPlayerType.BLACK;
-
-			if (j == 0 || j == 7) {
-				int i = square.getX();
-				if (i == 0 || i == 7) {
-					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.ROOK));
-				} else if (i == 1 || i == 6) {
-					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.KNIGHT));
-				} else if (i == 2 || i == 5) {
-					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.BISHOP));
-				} else if (i == 3) {
-					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.QUEEN));
-				} else if (i == 4) {
-					board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.KING));
-				}
-			} else if (j == 1 || j == 6) {
-				board.setPieceAt(square, new ChessPiece(pl, ChessPieceType.PAWN));
-			}
-		}
-	}
-
-	public boolean isCheck(PlayerType player, Board board) {
-		Square kingSquare = board.findSquare(player, ChessPieceType.KING);
-		if (kingSquare == null) {
-			return false;
-		}
-		return isCheck(player, board, kingSquare);
-	}
-
-	private boolean isCheck(PlayerType player, Board board, Square kingSquare) {
-
-		for (Square square : board.getSquares()) {
-			Piece attacker = board.getPieceAt(square);
+		for (final Square square : board.getSquares()) {
+			final Piece attacker = board.getPieceAt(square);
 			if (attacker == null || attacker.getPlayerType() == player) {
 				continue;
 			}
 			if (canGo(board, square, kingSquare)) {
 				return true;
 			}
-		}
-		return false;
-	}
-
-	@Override
-	protected boolean isForward(Square from, Square to, PlayerType player) {
-		return from.getY() != to.getY() && player == ChessPlayerType.WHITE ^ from.getY() > to.getY();
-	}
-
-	public boolean isPawnMove(Square from, Square to, PlayerType player) {
-		if (AbstractBoard.getXmove(from, to) == 0 && isForward(from, to, player)) {
-			return from.getY() == (player == ChessPlayerType.WHITE ? 1 : 6) ? abs(AbstractBoard.getYmove(from, to)) <= 2
-					: abs(AbstractBoard.getYmove(from, to)) == 1;
-		}
-		return false;
-	}
-
-	public ChessBoard newBoard() {
-		return new ChessBoard(this);
-	}
-
-	public boolean postCheck(Move move, Board newBoard, Game game) {
-		if (isCheck(move.getPlayerType(), newBoard)) {
-			return false;
-		}
-		return true;
-	}
-
-	public boolean preCheck(Move move, Board oldBoard, Game game) {
-		if (move instanceof NormalMove) {
-			NormalMove nmove = (NormalMove) move;
-			return canGo(oldBoard, nmove.getFrom(), nmove.getTo());
-		} else if (move instanceof Castle) {
-			return true;
 		}
 		return false;
 	}

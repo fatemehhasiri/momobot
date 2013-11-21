@@ -27,7 +27,7 @@ public class ShogiAwtAssistant extends PocketAwtGuiAssistant implements IShogiGu
 		private final NormalMove move;
 		private final Dialog popup;
 
-		PromotionAcceptedAction(Dialog popup, NormalMove move) {
+		PromotionAcceptedAction(final Dialog popup, final NormalMove move) {
 			super();
 			this.popup = popup;
 			this.move = move;
@@ -49,7 +49,7 @@ public class ShogiAwtAssistant extends PocketAwtGuiAssistant implements IShogiGu
 		private final NormalMove move;
 		private final Dialog popup;
 
-		PromotionRefusedAction(Dialog popup, NormalMove move) {
+		PromotionRefusedAction(final Dialog popup, final NormalMove move) {
 			super();
 			this.popup = popup;
 			this.move = move;
@@ -67,12 +67,12 @@ public class ShogiAwtAssistant extends PocketAwtGuiAssistant implements IShogiGu
 		}
 	}
 
-	public ShogiAwtAssistant(PocketBoardGui parent) {
+	public ShogiAwtAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(RotatingJButton button, PieceType piece, PlayerType player) {
+	public void decorate(final RotatingJButton button, final PieceType piece, final PlayerType player) {
 		if (piece == null) {
 			button.setText("", false);
 		} else {
@@ -87,10 +87,6 @@ public class ShogiAwtAssistant extends PocketAwtGuiAssistant implements IShogiGu
 	}
 
 	@Override
-	protected ShogiGui getParent() {
-		return (ShogiGui) super.getParent();
-	}
-
 	public void initPockets() {
 		JPanel pocket = new JPanel();
 		frame.add(pocket, 0);
@@ -100,20 +96,26 @@ public class ShogiAwtAssistant extends PocketAwtGuiAssistant implements IShogiGu
 		pockets.put(ShogiPlayerType.GOTE, pocket);
 	}
 
-	public void showPromotionDialog(NormalMove move) {
-		Dialog popup = new Dialog(Frame.getFrames()[0], "Promotion?");
+	@Override
+	public void showPromotionDialog(final NormalMove move) {
+		final Dialog popup = new Dialog(Frame.getFrames()[0], "Promotion?");
 		popup.setLayout(new GridLayout(1, 2, 10, 10));
 		popup.setModal(true);
 
-		Button promoButton = new Button("Yes");
+		final Button promoButton = new Button("Yes");
 		promoButton.addActionListener(new PromotionAcceptedAction(popup, move));
 		popup.add(promoButton);
 
-		Button cancelButton = new Button("No");
+		final Button cancelButton = new Button("No");
 		cancelButton.addActionListener(new PromotionRefusedAction(popup, move));
 		popup.add(cancelButton);
 
 		popup.pack();
 		popup.setVisible(true);
+	}
+
+	@Override
+	protected ShogiGui getParent() {
+		return (ShogiGui) super.getParent();
 	}
 }

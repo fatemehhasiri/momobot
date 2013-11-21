@@ -12,25 +12,19 @@ public class KifAdapterTest {
 
 	@Test
 	public void testImportKif() throws IOException, URISyntaxException {
-		KifAdapter kifa = new KifAdapter();
-		String live = "http://live.shogi.or.jp/asahi/archives/1/kifu/20070707asahi_10.html";
-		InputStream is = KifImporter.importKif(live);
-		try {
+		final KifAdapter kifa = new KifAdapter();
+		final String live = "http://live.shogi.or.jp/asahi/archives/1/kifu/20070707asahi_10.html";
+		try (InputStream is = KifImporter.importKif(live)) {
 			System.out.println(kifa.readAll(is));
-		} finally {
-			is.close();
 		}
 	}
 
 	@Test
 	public void testKif() throws IOException {
-		File resFile = new File("src/test/resources/20070707asahi_10.kif");
-		KifAdapter kifa = new KifAdapter();
-		FileInputStream fis = new FileInputStream(resFile);
-		try {
+		final File resFile = new File("src/test/resources/20070707asahi_10.kif");
+		final KifAdapter kifa = new KifAdapter();
+		try (FileInputStream fis = new FileInputStream(resFile)) {
 			System.out.println(kifa.readAll(fis));
-		} finally {
-			fis.close();
 		}
 	}
 }

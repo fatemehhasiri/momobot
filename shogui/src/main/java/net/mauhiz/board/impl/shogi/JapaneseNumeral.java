@@ -5,7 +5,7 @@ public enum JapaneseNumeral {
 
 	private int value;
 
-	private JapaneseNumeral(int value) {
+	private JapaneseNumeral(final int value) {
 		this.value = value;
 	}
 

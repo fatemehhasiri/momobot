@@ -6,7 +6,7 @@ import net.mauhiz.board.model.data.PlayerType;
 public class Castle extends AbstractMove {
 	private final boolean great;
 
-	public Castle(PlayerType playerType, boolean great) {
+	public Castle(final PlayerType playerType, final boolean great) {
 		super(playerType);
 		this.great = great;
 	}

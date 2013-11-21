@@ -11,8 +11,8 @@ public enum ChessPieceType implements PieceType {
 	},
 	PAWN, QUEEN, ROOK;
 
-	public static ChessPieceType fromName(String name) {
-		for (ChessPieceType piece : values()) {
+	public static ChessPieceType fromName(final String name) {
+		for (final ChessPieceType piece : values()) {
 			if (piece.getName().equals(name)) {
 				return piece;
 			}
@@ -24,6 +24,7 @@ public enum ChessPieceType implements PieceType {
 		return new ChessPieceType[] { QUEEN, ROOK, BISHOP, KNIGHT };
 	}
 
+	@Override
 	public String getName() {
 		return name().substring(0, 1);
 	}

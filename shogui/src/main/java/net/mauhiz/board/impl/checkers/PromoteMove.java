@@ -6,7 +6,7 @@ import net.mauhiz.board.model.data.NormalMove;
 public class PromoteMove extends AbstractMove {
 	private final NormalMove parentMove;
 
-	public PromoteMove(NormalMove parentMove) {
+	public PromoteMove(final NormalMove parentMove) {
 		super(parentMove.getPlayerType());
 		this.parentMove = parentMove;
 	}

@@ -13,7 +13,7 @@ import net.mauhiz.util.ExecutionType;
 public class CancelAction extends AbstractAction {
 	private static final Map<InteractiveBoardGui, CancelAction> INSTANCES = new HashMap<>(1);
 
-	public static final CancelAction getInstance(InteractiveBoardGui gui) {
+	public static final CancelAction getInstance(final InteractiveBoardGui gui) {
 		CancelAction instance = INSTANCES.get(gui);
 		if (instance == null) {
 			instance = new CancelAction(gui);
@@ -24,13 +24,13 @@ public class CancelAction extends AbstractAction {
 
 	private final InteractiveBoardGui gui;
 
-	private CancelAction(InteractiveBoardGui gui) {
+	private CancelAction(final InteractiveBoardGui gui) {
 		super();
 		this.gui = gui;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return this == obj || obj instanceof CancelAction && isEquals((CancelAction) obj);
 	}
 
@@ -44,10 +44,6 @@ public class CancelAction extends AbstractAction {
 		return gui.hashCode();
 	}
 
-	private boolean isEquals(CancelAction other) {
-		return gui == other.gui;
-	}
-
 	@Override
 	public String toString() {
 		return getClass().getSimpleName();
@@ -56,5 +52,9 @@ public class CancelAction extends AbstractAction {
 	@Override
 	public void trun() {
 		gui.cancelSelection();
+	}
+
+	private boolean isEquals(final CancelAction other) {
+		return gui == other.gui;
 	}
 }

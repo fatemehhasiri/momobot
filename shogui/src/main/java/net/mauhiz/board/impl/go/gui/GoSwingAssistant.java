@@ -17,12 +17,12 @@ import net.mauhiz.board.model.gui.PocketBoardGui;
  */
 public class GoSwingAssistant extends PocketSwingGuiAssistant {
 
-	public GoSwingAssistant(PocketBoardGui parent) {
+	public GoSwingAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(RotatingJButton button, PieceType op, PlayerType player) {
+	public void decorate(final RotatingJButton button, final PieceType op, final PlayerType player) {
 		if (op == null) {
 			button.setText("");
 		} else {
@@ -32,10 +32,6 @@ public class GoSwingAssistant extends PocketSwingGuiAssistant {
 	}
 
 	@Override
-	protected GoGui getParent() {
-		return (GoGui) super.getParent();
-	}
-
 	public void initPockets() {
 		JPanel pocket = newPocket();
 		boardAndPocketsPanel.add(pocket, 0);
@@ -45,8 +41,13 @@ public class GoSwingAssistant extends PocketSwingGuiAssistant {
 		addPocket(GoPlayerType.WHITE, pocket);
 	}
 
+	@Override
+	protected GoGui getParent() {
+		return (GoGui) super.getParent();
+	}
+
 	protected JPanel newPocket() {
-		JPanel pocket = new JPanel();
+		final JPanel pocket = new JPanel();
 		pocket.setLayout(new GridLayout(1, 7));
 		pocket.setSize(7 * 30, 30);
 		pocket.setToolTipText("Pocket");

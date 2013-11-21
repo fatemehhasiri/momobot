@@ -16,13 +16,13 @@ public class KifImporter {
 	 * @param flashUrl
 	 * @throws IOException 
 	 */
-	public static InputStream importKif(String flashUrl) throws URISyntaxException, IOException {
-		URI flashUri = new URI(flashUrl);
+	public static InputStream importKif(final String flashUrl) throws URISyntaxException, IOException {
+		final URI flashUri = new URI(flashUrl);
 
-		String page = NetUtils.doHttpGet(flashUri);
-		String dataPath = StringUtils.substringBetween(page, "addVariable(\"kifu\", \"", ".Z\"");
-		String dataRoot = StringUtils.substringBeforeLast(flashUrl, "/");
-		String dataUrl = dataRoot + "/" + dataPath;
+		final String page = NetUtils.doHttpGet(flashUri);
+		final String dataPath = StringUtils.substringBetween(page, "addVariable(\"kifu\", \"", ".Z\"");
+		final String dataRoot = StringUtils.substringBeforeLast(flashUrl, "/");
+		final String dataUrl = dataRoot + "/" + dataPath;
 		return new URL(dataUrl).openStream();
 	}
 }

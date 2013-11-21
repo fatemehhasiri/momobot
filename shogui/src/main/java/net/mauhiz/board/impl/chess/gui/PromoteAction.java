@@ -13,7 +13,7 @@ public class PromoteAction extends AbstractAction {
 	private final NormalMove nmove;
 	private final ChessPieceType promotion;
 
-	public PromoteAction(NormalMove nmove, BoardGui lparent, ChessPieceType promotion) {
+	public PromoteAction(final NormalMove nmove, final BoardGui lparent, final ChessPieceType promotion) {
 		super();
 		this.nmove = nmove;
 		this.lparent = lparent;
@@ -27,7 +27,7 @@ public class PromoteAction extends AbstractAction {
 
 	@Override
 	public void trun() {
-		Move promoteMove = new PromoteMove(nmove, promotion);
+		final Move promoteMove = new PromoteMove(nmove, promotion);
 		lparent.sendMove(promoteMove);
 	}
 }

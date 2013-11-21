@@ -18,10 +18,41 @@ import net.mauhiz.board.model.data.Square;
  */
 public class ChessGui extends AbstractInteractiveBoardGui {
 
-	public static void main(String... args) {
-		ChessGui gui = new ChessGui();
+	public static void main(final String... args) {
+		final ChessGui gui = new ChessGui();
 		gui.assistant = new SwingChessGuiAssistant(gui);
 		gui.getAssistant().start();
+	}
+
+	@Override
+	public ChessRule getRule() {
+		return (ChessRule) super.getRule();
+	}
+
+	@Override
+	public Color getSquareBgcolor(final Square square) {
+		return (square.getX() + square.getY()) % 2 == 0 ? Color.LIGHT_GRAY : Color.DARK_GRAY;
+	}
+
+	@Override
+	public String getWindowTitle() {
+		return "mauhiz' Chess";
+	}
+
+	@Override
+	public PlayerType sendMove(final Move move) {
+		if (move instanceof NormalMove) {
+			final NormalMove nmove = (NormalMove) move;
+
+			if (getRule().canPromote(getBoard().getPieceAt(nmove.getFrom()), nmove.getTo())) {
+				final ChessPieceType[] promotions = ChessPieceType.getPromotions();
+				getAssistant().showPromotionDialog(promotions, nmove);
+				return null; // do not send anything yet
+			}
+		}
+
+		cancelSelection();
+		return super.sendMove(move);
 	}
 
 	@Override
@@ -35,30 +66,17 @@ public class ChessGui extends AbstractInteractiveBoardGui {
 	}
 
 	@Override
-	public ChessRule getRule() {
-		return (ChessRule) super.getRule();
-	}
-
-	public Color getSquareBgcolor(Square square) {
-		return (square.getX() + square.getY()) % 2 == 0 ? Color.LIGHT_GRAY : Color.DARK_GRAY;
-	}
-
-	public String getWindowTitle() {
-		return "mauhiz' Chess";
-	}
-
-	@Override
 	protected ChessGameController newController() {
 		return new ChessGameController(this);
 	}
 
 	@Override
-	protected void refreshSquare(Square square) {
-		ChessPiece op = getBoard().getPieceAt(square);
+	protected void refreshSquare(final Square square) {
+		final ChessPiece op = getBoard().getPieceAt(square);
 
 		if (isSquareSelected()) { // from the board
 			// available destinations
-			Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
+			final Move move = getRule().generateMove(getSelectedSquare(), square, getGame());
 
 			if (move != null) {
 				addMoveAction(square, move);
@@ -70,21 +88,5 @@ public class ChessGui extends AbstractInteractiveBoardGui {
 		}
 
 		disableSquare(square);
-	}
-
-	@Override
-	public PlayerType sendMove(Move move) {
-		if (move instanceof NormalMove) {
-			NormalMove nmove = (NormalMove) move;
-
-			if (getRule().canPromote(getBoard().getPieceAt(nmove.getFrom()), nmove.getTo())) {
-				ChessPieceType[] promotions = ChessPieceType.getPromotions();
-				getAssistant().showPromotionDialog(promotions, nmove);
-				return null; // do not send anything yet
-			}
-		}
-
-		cancelSelection();
-		return super.sendMove(move);
 	}
 }

@@ -13,7 +13,7 @@ public class MoveAction extends AbstractAction {
 	private final InteractiveBoardGui gui;
 	private final Move move;
 
-	public MoveAction(InteractiveBoardGui gui, Move move) {
+	public MoveAction(final InteractiveBoardGui gui, final Move move) {
 		super();
 		this.move = move;
 		this.gui = gui;

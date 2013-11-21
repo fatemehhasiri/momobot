@@ -12,11 +12,11 @@ public class ShogiGameController extends AbstractPocketGameController {
 
 	private static final Logger LOG = Logger.getLogger(ShogiGameController.class);
 
-	public ShogiGameController(BoardIO display) {
+	public ShogiGameController(final BoardIO display) {
 		super(display);
 	}
 
-	public PromoteMove convertToPromotion(NormalMove move) {
+	public PromoteMove convertToPromotion(final NormalMove move) {
 		LOG.trace("Generating promotion from normal move: " + move);
 		return new PromoteMove(move);
 	}

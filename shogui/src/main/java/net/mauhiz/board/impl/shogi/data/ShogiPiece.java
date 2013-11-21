@@ -4,7 +4,7 @@ import net.mauhiz.board.impl.common.data.DefaultPiece;
 
 public class ShogiPiece extends DefaultPiece {
 
-	public ShogiPiece(ShogiPlayerType playerType, ShogiPieceType pieceType) {
+	public ShogiPiece(final ShogiPlayerType playerType, final ShogiPieceType pieceType) {
 		super(playerType, pieceType);
 	}
 

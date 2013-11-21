@@ -10,42 +10,48 @@ import net.mauhiz.board.model.data.Square;
 
 public class GoRule extends AbstractPocketRule {
 
-	protected boolean canDrop(Board board, Square to) {
-		return board.getPieceAt(to) == null;
-	}
-
+	@Override
 	public GoPlayerType[] getPlayerTypes() {
 		return GoPlayerType.values();
 	}
 
+	@Override
 	public GoPlayerType getStartingPlayer() {
 		return GoPlayerType.BLACK;
 	}
 
-	public void initPieces(Board board) {
+	@Override
+	public void initPieces(final Board board) {
 		// starts with empty board
 	}
 
 	@Override
-	protected boolean isForward(Square from, Square to, PlayerType player) {
-		return false;
-	}
-
 	public GoBoard newBoard() {
 		return new GoBoard(this);
 	}
 
-	public boolean postCheck(Move move, Board newBoard, Game game) {
+	@Override
+	public boolean postCheck(final Move move, final Board newBoard, final Game game) {
 		return true;
 	}
 
-	public boolean preCheck(Move move, Board oldBoard, Game game) {
+	@Override
+	public boolean preCheck(final Move move, final Board oldBoard, final Game game) {
 		if (move.getPlayerType() != game.getTurn()) {
 			return false;
 		}
 		if (move instanceof Drop) {
 			return canDrop(oldBoard, ((Drop) move).getTo());
 		}
+		return false;
+	}
+
+	protected boolean canDrop(final Board board, final Square to) {
+		return board.getPieceAt(to) == null;
+	}
+
+	@Override
+	protected boolean isForward(final Square from, final Square to, final PlayerType player) {
 		return false;
 	}
 }

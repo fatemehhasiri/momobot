@@ -9,17 +9,17 @@ import net.mauhiz.board.model.data.Square;
 
 public class ChessGame extends AbstractGame {
 
-	public ChessGame(ChessRule rule) {
+	public ChessGame(final ChessRule rule) {
 		super(rule);
 	}
 
-	public boolean kingHasMoved(PlayerType kingOwner) {
-		for (Move move : moves) {
+	public boolean kingHasMoved(final PlayerType kingOwner) {
+		for (final Move move : moves) {
 			if (move.getPlayerType() == kingOwner) {
 				if (move instanceof Castle) {
 					return true;
 				} else if (move instanceof NormalMove) {
-					NormalMove nmove = (NormalMove) move;
+					final NormalMove nmove = (NormalMove) move;
 					if (nmove.getFrom().getX() == 4
 							&& nmove.getFrom().getY() == (kingOwner == ChessPlayerType.WHITE ? 0 : 7)) {
 						return true;
@@ -30,10 +30,10 @@ public class ChessGame extends AbstractGame {
 		return false;
 	}
 
-	public boolean rookHasMoved(PlayerType rookOwner, Square rookStart) {
-		for (Move move : moves) {
+	public boolean rookHasMoved(final PlayerType rookOwner, final Square rookStart) {
+		for (final Move move : moves) {
 			if (move.getPlayerType() == rookOwner && move instanceof NormalMove) {
-				NormalMove nmove = (NormalMove) move;
+				final NormalMove nmove = (NormalMove) move;
 				if (nmove.getFrom() == rookStart) {
 					return true;
 				}

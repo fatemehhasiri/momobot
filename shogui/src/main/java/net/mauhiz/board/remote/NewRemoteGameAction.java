@@ -8,7 +8,7 @@ import net.mauhiz.board.model.gui.BoardGui;
  */
 public class NewRemoteGameAction extends StartAction {
 
-    public NewRemoteGameAction(BoardGui gui) {
-        super(gui);
-    }
+	public NewRemoteGameAction(final BoardGui gui) {
+		super(gui);
+	}
 }

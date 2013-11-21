@@ -20,12 +20,12 @@ import net.mauhiz.board.model.gui.BoardGui;
  */
 public class AwtChessGuiAssistant extends AwtGuiAssistant implements IChessGuiAssistant {
 
-	public AwtChessGuiAssistant(BoardGui parent) {
+	public AwtChessGuiAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(RotatingJButton button, PieceType op, PlayerType player) {
+	public void decorate(final RotatingJButton button, final PieceType op, final PlayerType player) {
 		if (op == null) {
 			button.setText("");
 		} else {
@@ -34,13 +34,14 @@ public class AwtChessGuiAssistant extends AwtGuiAssistant implements IChessGuiAs
 		}
 	}
 
-	public void showPromotionDialog(ChessPieceType[] promotions, NormalMove nmove) {
+	@Override
+	public void showPromotionDialog(final ChessPieceType[] promotions, final NormalMove nmove) {
 		final Dialog popup = new Dialog(Frame.getFrames()[0], "Promotion?");
 		popup.setLayout(new GridLayout(1, promotions.length));
 		popup.setModal(true);
 
 		for (final ChessPieceType promotion : promotions) {
-			Button promoButton = new Button(promotion.getName());
+			final Button promoButton = new Button(promotion.getName());
 			promoButton.addActionListener(new PromoteAction(nmove, getParent(), promotion));
 			popup.add(promoButton);
 		}

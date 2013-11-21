@@ -51,27 +51,28 @@ public class KifAdapter implements MoveReader {
 	private static final String TOURYOU = "投了";
 	private static final UtfChar UCHI = UtfChar.valueOf('打');
 
-	private static Square getSquareAA(UtfChar originFile, UtfChar originRow) {
-		int originX = originFile.getCodePoint() - '0';
-		int originY = originRow.getCodePoint() - '0';
+	private static Square getSquareAA(final UtfChar originFile, final UtfChar originRow) {
+		final int originX = originFile.getCodePoint() - '0';
+		final int originY = originRow.getCodePoint() - '0';
 		// in shogi, both are reversed
 		return SquareImpl.getInstance(ShogiBoard.SIZE - originX, ShogiBoard.SIZE - originY);
 	}
 
-	private static Square getSquareAJ(UtfChar originFile, UtfChar originRow) {
-		int originX = originFile.getCodePoint() - '０'; // full-width arab numeral
+	private static Square getSquareAJ(final UtfChar originFile, final UtfChar originRow) {
+		final int originX = originFile.getCodePoint() - '０'; // full-width arab numeral
 		// the Japanese numerals are not aligned in UTF-8
-		int originY = JapaneseNumeral.valueOf(originRow.toString()).getValue(); // kanji
+		final int originY = JapaneseNumeral.valueOf(originRow.toString()).getValue(); // kanji
 		// in shogi, both are reversed
 		return SquareImpl.getInstance(ShogiBoard.SIZE - originX, ShogiBoard.SIZE - originY);
 	}
 
-	public Game readAll(InputStream data) throws IOException {
-		ShogiGame game = new ShogiGame(new ShogiRule());
-		BufferedReader br = new BufferedReader(new InputStreamReader(data, Charset.forName("SHIFT-JIS")));
+	@Override
+	public Game readAll(final InputStream data) throws IOException {
+		final ShogiGame game = new ShogiGame(new ShogiRule());
+		final BufferedReader br = new BufferedReader(new InputStreamReader(data, Charset.forName("SHIFT-JIS")));
 
 		while (true) {
-			String line = br.readLine();
+			final String line = br.readLine();
 			if (line == null) {
 				break;
 			} else if (line.length() == 0) {
@@ -85,22 +86,23 @@ public class KifAdapter implements MoveReader {
 		return game;
 	}
 
-	public void readNext(InputStream data, Game game) throws IOException {
-		String line = IOUtils.toString(data, FileUtil.UTF8.name());
+	@Override
+	public void readNext(final InputStream data, final Game game) throws IOException {
+		final String line = IOUtils.toString(data, FileUtil.UTF8.name());
 		int i = 0;
 		// chars 0..3 represent the move number.
 		// char 4 is a space.
 		i += 5;
 
 		// destination file (arab numeral)
-		UtfChar destFile = UtfChar.charAt(line, i++);
+		final UtfChar destFile = UtfChar.charAt(line, i++);
 		Square dest;
 		if (DOU.equals(destFile)) {
 			if (game.getLastMove() instanceof InitMove) {
 				// impossible!!
 				throw new IllegalStateException("No previous move!");
 			}
-			Move previous = game.getLastMove();
+			final Move previous = game.getLastMove();
 			if (previous instanceof NormalMove) {
 				dest = ((NormalMove) previous).getTo();
 			} else if (previous instanceof Drop) {
@@ -115,16 +117,16 @@ public class KifAdapter implements MoveReader {
 			return; // not a move, rather a status update
 		} else {
 			// the destination row (japanese numeral)
-			UtfChar destRow = UtfChar.charAt(line, i++);
+			final UtfChar destRow = UtfChar.charAt(line, i++);
 			try {
 				dest = getSquareAJ(destFile, destRow);
-			} catch (IllegalArgumentException iae) {
+			} catch (final IllegalArgumentException iae) {
 				throw new IllegalStateException("Invalid move: " + line);
 			}
 		}
-		UtfChar piece = UtfChar.charAt(line, i++);
+		final UtfChar piece = UtfChar.charAt(line, i++);
 		// special move (or opening bracket if none)
-		UtfChar special = UtfChar.charAt(line, i++);
+		final UtfChar special = UtfChar.charAt(line, i++);
 		if (UCHI.equals(special)) {
 			game.applyMove(new DropImpl(game.getTurn(), ShogiPieceType.fromKanji(piece), dest));
 			return;
@@ -132,11 +134,11 @@ public class KifAdapter implements MoveReader {
 			i++;
 		}
 		// origin file (arab numeral)
-		UtfChar originFile = UtfChar.charAt(line, i++);
+		final UtfChar originFile = UtfChar.charAt(line, i++);
 		// origin row (arab numeral)
-		UtfChar originRow = UtfChar.charAt(line, i++);
-		Square origin = getSquareAA(originFile, originRow);
-		NormalMove move = new NormalMoveImpl(game.getTurn(), origin, dest);
+		final UtfChar originRow = UtfChar.charAt(line, i++);
+		final Square origin = getSquareAA(originFile, originRow);
+		final NormalMove move = new NormalMoveImpl(game.getTurn(), origin, dest);
 		if (special == NARI) {
 			game.applyMove(new PromoteMove(move));
 		} else {

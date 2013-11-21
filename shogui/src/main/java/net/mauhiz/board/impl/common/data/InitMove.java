@@ -7,10 +7,11 @@ public class InitMove implements Move {
 
 	private final PlayerType starter;
 
-	public InitMove(PlayerType starter) {
+	public InitMove(final PlayerType starter) {
 		this.starter = starter;
 	}
 
+	@Override
 	public PlayerType getPlayerType() {
 		return starter;
 	}

@@ -14,21 +14,21 @@ import org.eclipse.swt.widgets.Display;
 
 public class CheckersSwtAssistant extends SwtGuiAssistant {
 
-	public CheckersSwtAssistant(BoardGui parent) {
+	public CheckersSwtAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	protected void decorate(Button button, PieceType piece, PlayerType player) {
+	protected void decorate(final Button button, final PieceType piece, final PlayerType player) {
 		if (piece == null) {
 			button.setText("");
 		} else {
-			CheckersPieceType op = (CheckersPieceType) piece;
+			final CheckersPieceType op = (CheckersPieceType) piece;
 			button.setText(op.getName());
 
-			Display display = button.getDisplay();
-			Color black = display.getSystemColor(SWT.COLOR_BLACK);
-			Color white = display.getSystemColor(SWT.COLOR_WHITE);
+			final Display display = button.getDisplay();
+			final Color black = display.getSystemColor(SWT.COLOR_BLACK);
+			final Color white = display.getSystemColor(SWT.COLOR_WHITE);
 			button.setForeground(player == CheckersPlayerType.BLACK ? black : white);
 		}
 	}

@@ -17,37 +17,41 @@ public abstract class PocketAwtGuiAssistant extends AwtGuiAssistant implements P
 
 	protected Map<PlayerType, JPanel> pockets = new HashMap<>();
 
-	public PocketAwtGuiAssistant(PocketBoardGui parent) {
+	public PocketAwtGuiAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
-	public void addToPocket(PieceType pieceType, PlayerType player) {
-		RotatingJButton button = new RotatingJButton();
+	@Override
+	public void addToPocket(final PieceType pieceType, final PlayerType player) {
+		final RotatingJButton button = new RotatingJButton();
 		decorate(button, pieceType, player);
 		pockets.get(player).add(button);
 		button.addActionListener(new SelectPocketAction(getParent(), pieceType, player));
 	}
 
+	@Override
 	public void clearPockets() {
-		for (JPanel pocket : pockets.values()) {
+		for (final JPanel pocket : pockets.values()) {
 			pocket.removeAll();
 		}
 	}
 
 	@Override
-	protected PocketBoardGui getParent() {
-		return (PocketBoardGui) super.getParent();
-	}
-
-	@Override
-	public void initLayout(Dimension size) {
+	public void initLayout(final Dimension size) {
 		super.initLayout(size);
 		initPockets();
 	}
 
-	public void refreshPocketActions(PlayerType player) {
+	@Override
+	public void refreshPocketActions(final PlayerType player) {
 	}
 
-	public void removeFromPocket(PieceType piece, PlayerType player) {
+	@Override
+	public void removeFromPocket(final PieceType piece, final PlayerType player) {
+	}
+
+	@Override
+	protected PocketBoardGui getParent() {
+		return (PocketBoardGui) super.getParent();
 	}
 }

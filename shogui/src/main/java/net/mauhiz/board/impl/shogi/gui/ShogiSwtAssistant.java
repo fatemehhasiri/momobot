@@ -24,7 +24,8 @@ public class ShogiSwtAssistant extends PocketSwtGuiAssistant implements IShogiGu
 		private final PieceType piece;
 		private final PlayerType player;
 
-		ButtonDecorator(Button button, PieceType piece, PlayerType player) {
+		ButtonDecorator(final Button button, final PieceType piece, final PlayerType player) {
+			super();
 			this.button = button;
 			this.piece = piece;
 			this.player = player;
@@ -41,7 +42,7 @@ public class ShogiSwtAssistant extends PocketSwtGuiAssistant implements IShogiGu
 			if (piece == null) {
 				button.setText("");
 			} else {
-				ShogiPieceType pt = (ShogiPieceType) piece;
+				final ShogiPieceType pt = (ShogiPieceType) piece;
 				if (player == ShogiPlayerType.SENTE) {
 					button.setText("^\r\n" + pt.getName());
 				} else {
@@ -54,7 +55,7 @@ public class ShogiSwtAssistant extends PocketSwtGuiAssistant implements IShogiGu
 	class PocketInitializer extends AbstractAction {
 		private final Map<PlayerType, Composite> lpockets;
 
-		PocketInitializer(Map<PlayerType, Composite> lpockets) {
+		PocketInitializer(final Map<PlayerType, Composite> lpockets) {
 			super();
 			this.lpockets = lpockets;
 		}
@@ -71,12 +72,12 @@ public class ShogiSwtAssistant extends PocketSwtGuiAssistant implements IShogiGu
 		}
 	}
 
-	public ShogiSwtAssistant(PocketBoardGui parent) {
+	public ShogiSwtAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(Button button, PieceType piece, PlayerType player) {
+	public void decorate(final Button button, final PieceType piece, final PlayerType player) {
 		new ButtonDecorator(button, piece, player).launch(button.getDisplay());
 	}
 
@@ -85,14 +86,16 @@ public class ShogiSwtAssistant extends PocketSwtGuiAssistant implements IShogiGu
 		return (ShogiGui) super.getParent();
 	}
 
+	@Override
 	public void initPockets() {
 		new PocketInitializer(pockets).launch(getShell().getDisplay());
 	}
 
-	public void showPromotionDialog(NormalMove move) {
-		MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+	@Override
+	public void showPromotionDialog(final NormalMove move) {
+		final MessageBox mb = new MessageBox(getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 		mb.setMessage("Promote?");
-		int buttonID = mb.open();
+		final int buttonID = mb.open();
 		switch (buttonID) {
 			case SWT.YES:
 				getParent().afterPromotionDialog(move, true);

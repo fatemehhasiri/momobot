@@ -1,6 +1,5 @@
 package net.mauhiz.board.model.data;
 
-
 public interface Rule {
 	Move generateMove(Square from, Square to, Game game);
 

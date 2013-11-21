@@ -7,10 +7,11 @@ public enum CheckersPieceType implements PieceType {
 
 	private String name;
 
-	private CheckersPieceType(String name) {
+	private CheckersPieceType(final String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

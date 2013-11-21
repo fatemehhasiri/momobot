@@ -13,14 +13,14 @@ public class SelectSquareAction extends AbstractAction {
 	private final Square at;
 	private final InteractiveBoardGui gui;
 
-	public SelectSquareAction(InteractiveBoardGui gui, Square at) {
+	public SelectSquareAction(final InteractiveBoardGui gui, final Square at) {
 		super();
 		this.gui = gui;
 		this.at = at;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return this == obj || obj instanceof SelectSquareAction && isEquals((SelectSquareAction) obj);
 	}
 
@@ -34,10 +34,6 @@ public class SelectSquareAction extends AbstractAction {
 		return at.hashCode();
 	}
 
-	private boolean isEquals(SelectSquareAction other) {
-		return at.equals(other.at) && gui == other.gui;
-	}
-
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "@" + at;
@@ -46,5 +42,9 @@ public class SelectSquareAction extends AbstractAction {
 	@Override
 	public void trun() {
 		gui.selectSquare(at);
+	}
+
+	private boolean isEquals(final SelectSquareAction other) {
+		return at.equals(other.at) && gui == other.gui;
 	}
 }

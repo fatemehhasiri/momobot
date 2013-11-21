@@ -8,16 +8,18 @@ public class NormalMoveImpl extends AbstractMove implements NormalMove {
 	private final Square from;
 	private final Square to;
 
-	public NormalMoveImpl(PlayerType playerType, Square from, Square to) {
+	public NormalMoveImpl(final PlayerType playerType, final Square from, final Square to) {
 		super(playerType);
 		this.from = from;
 		this.to = to;
 	}
 
+	@Override
 	public Square getFrom() {
 		return from;
 	}
 
+	@Override
 	public Square getTo() {
 		return to;
 	}

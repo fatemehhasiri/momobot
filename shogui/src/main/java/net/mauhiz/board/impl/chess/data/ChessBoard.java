@@ -18,7 +18,7 @@ public class ChessBoard extends AbstractBoard {
 		CHECK(false), DRAW(true), MATE(true);
 		private final boolean end;
 
-		private Status(boolean end) {
+		private Status(final boolean end) {
 			this.end = end;
 		}
 
@@ -29,59 +29,62 @@ public class ChessBoard extends AbstractBoard {
 
 	public static final int SIZE = 8;
 
-	public ChessBoard(Rule rule) {
+	public ChessBoard(final Rule rule) {
 		super(rule);
 	}
 
-	public void applyMove(Move move) {
+	@Override
+	public void applyMove(final Move move) {
 		if (move instanceof EnPassant) {
-			EnPassant passant = (EnPassant) move;
-			Square from = passant.getFrom();
-			Square to = passant.getTo();
-			Square enPassant = SquareImpl.getInstance(to.getX(), from.getY());
+			final EnPassant passant = (EnPassant) move;
+			final Square from = passant.getFrom();
+			final Square to = passant.getTo();
+			final Square enPassant = SquareImpl.getInstance(to.getX(), from.getY());
 			setPieceAt(enPassant, null);
 		}
 		if (move instanceof NormalMove) {
-			Square from = ((NormalMove) move).getFrom();
-			Square to = ((NormalMove) move).getTo();
+			final Square from = ((NormalMove) move).getFrom();
+			final Square to = ((NormalMove) move).getTo();
 			movePiece(from, to);
 
 		} else if (move instanceof Castle) {
-			Castle castle = (Castle) move;
-			int row = move.getPlayerType() == ChessPlayerType.WHITE ? 0 : 7;
-			Square kingFrom = SquareImpl.getInstance(4, row);
-			Square kingTo = SquareImpl.getInstance(castle.isGreat() ? 2 : 6, row);
+			final Castle castle = (Castle) move;
+			final int row = move.getPlayerType() == ChessPlayerType.WHITE ? 0 : 7;
+			final Square kingFrom = SquareImpl.getInstance(4, row);
+			final Square kingTo = SquareImpl.getInstance(castle.isGreat() ? 2 : 6, row);
 			movePiece(kingFrom, kingTo);
 
 			// move the rook too
-			Square rookFrom = SquareImpl.getInstance(castle.isGreat() ? 0 : 7, row);
-			Square rookTo = SquareImpl.getInstance(castle.isGreat() ? 3 : 5, row);
+			final Square rookFrom = SquareImpl.getInstance(castle.isGreat() ? 0 : 7, row);
+			final Square rookTo = SquareImpl.getInstance(castle.isGreat() ? 3 : 5, row);
 			movePiece(rookFrom, rookTo);
 		} else if (move instanceof PromoteMove) {
-			PromoteMove pmove = (PromoteMove) move;
-			NormalMove parentMove = pmove.getParentMove();
+			final PromoteMove pmove = (PromoteMove) move;
+			final NormalMove parentMove = pmove.getParentMove();
 			applyMove(parentMove);
 			setPieceAt(parentMove.getTo(),
 					new ChessPiece((ChessPlayerType) pmove.getPlayerType(), pmove.getPromotion()));
 		}
 	}
 
+	@Override
 	public ChessBoard copy() {
-		ChessBoard copy = new ChessBoard(null);
+		final ChessBoard copy = new ChessBoard(null);
 		super.copyInto(copy);
 		return copy;
 	}
 
-	protected Square findKingSquare(PlayerType pl) {
-		return findSquare(pl, ChessPieceType.KING);
-	}
-
 	@Override
-	public ChessPiece getPieceAt(Square square) {
+	public ChessPiece getPieceAt(final Square square) {
 		return (ChessPiece) super.getPieceAt(square);
 	}
 
+	@Override
 	public Dimension getSize() {
 		return new Dimension(SIZE, SIZE);
+	}
+
+	protected Square findKingSquare(final PlayerType pl) {
+		return findSquare(pl, ChessPieceType.KING);
 	}
 }

@@ -4,7 +4,7 @@ import net.mauhiz.board.impl.common.data.DefaultPiece;
 
 public class ChessPiece extends DefaultPiece {
 
-	public ChessPiece(ChessPlayerType playerType, ChessPieceType pieceType) {
+	public ChessPiece(final ChessPlayerType playerType, final ChessPieceType pieceType) {
 		super(playerType, pieceType);
 	}
 

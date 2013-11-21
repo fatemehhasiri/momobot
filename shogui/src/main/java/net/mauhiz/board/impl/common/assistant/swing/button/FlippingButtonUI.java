@@ -17,15 +17,15 @@ public class FlippingButtonUI extends BasicButtonUI {
 	public static final FlippingButtonUI FLIPPER = new FlippingButtonUI();
 
 	@Override
-	public void paint(Graphics g, JComponent c) {
+	public void paint(final Graphics g, final JComponent c) {
 		if (c instanceof JButton) {
-			JButton button = (JButton) c;
-			String text = button.getText();
-			Icon icon = button.isEnabled() ? button.getIcon() : button.getDisabledIcon();
+			final JButton button = (JButton) c;
+			final String text = button.getText();
+			final Icon icon = button.isEnabled() ? button.getIcon() : button.getDisabledIcon();
 			if (g instanceof Graphics2D) {
-				Graphics2D g2 = (Graphics2D) g;
+				final Graphics2D g2 = (Graphics2D) g;
 				// save
-				AffineTransform tr = g2.getTransform();
+				final AffineTransform tr = g2.getTransform();
 
 				// flip
 				g2.rotate(Math.PI);

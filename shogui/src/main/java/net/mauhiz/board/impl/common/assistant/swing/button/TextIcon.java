@@ -18,14 +18,12 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	protected int padding;
 	protected String text;
 
-	public TextIcon(JComponent component, String text) {
+	public TextIcon(final JComponent component, final String text) {
 		super();
 		this.component = component;
 		setText(text);
 		component.addPropertyChangeListener("font", this);
 	}
-
-	protected abstract void calculateIconDimensions();
 
 	/**
 	 *  Get the Font used to render the text. This will default to the Font
@@ -60,6 +58,7 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @return the height of the icon in pixels.
 	 */
+	@Override
 	public int getIconHeight() {
 		return iconHeight;
 	}
@@ -69,11 +68,13 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @return the width of the icon in pixels.
 	 */
+	@Override
 	public int getIconWidth() {
 		return iconWidth;
 	}
 
-	public void propertyChange(PropertyChangeEvent e) {
+	@Override
+	public void propertyChange(final PropertyChangeEvent e) {
 		//  Handle font change when using the default font
 
 		if (font == null && AUTO_RESIZE) {
@@ -86,7 +87,7 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @param font  the Font to be used for rendering the text
 	 */
-	public void setFont(Font font) {
+	public void setFont(final Font font) {
 		this.font = font;
 		if (AUTO_RESIZE) {
 			calculateIconDimensions();
@@ -100,7 +101,7 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @param foreground  the foreground Color to be used for rendering the text
 	 */
-	public void setForeground(Color foreground) {
+	public void setForeground(final Color foreground) {
 		this.foreground = foreground;
 		component.repaint();
 	}
@@ -112,7 +113,7 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @param padding  the padding amount in pixels
 	 */
-	public void setPadding(int padding) {
+	public void setPadding(final int padding) {
 		this.padding = padding;
 		if (AUTO_RESIZE) {
 			calculateIconDimensions();
@@ -127,7 +128,7 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 	 *
 	 *  @param text  the text to be rendered on the Icon
 	 */
-	public final void setText(String text) {
+	public final void setText(final String text) {
 		this.text = text;
 		if (AUTO_RESIZE) {
 			calculateIconDimensions();
@@ -135,4 +136,6 @@ public abstract class TextIcon implements Icon, PropertyChangeListener {
 			component.repaint();
 		}
 	}
+
+	protected abstract void calculateIconDimensions();
 }

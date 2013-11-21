@@ -34,7 +34,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 	static class ButtonClearer extends AbstractAction {
 		private final Map<Square, Button> lButtons;
 
-		ButtonClearer(Map<Square, Button> lButtons) {
+		ButtonClearer(final Map<Square, Button> lButtons) {
 			this.lButtons = lButtons;
 		}
 
@@ -46,7 +46,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		@Override
 		protected void trun() {
 			synchronized (lButtons) {
-				for (Button button : lButtons.values()) {
+				for (final Button button : lButtons.values()) {
 					button.dispose();
 				}
 
@@ -58,7 +58,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 	class LayoutInitializer extends AbstractAction {
 		private final Dimension size;
 
-		LayoutInitializer(Dimension size) {
+		LayoutInitializer(final Dimension size) {
 			this.size = size;
 		}
 
@@ -69,7 +69,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 
 		@Override
 		public void trun() {
-			GridLayout gridLayout = new GridLayout(size.width, true);
+			final GridLayout gridLayout = new GridLayout(size.width, true);
 			gridLayout.horizontalSpacing = 0;
 			gridLayout.verticalSpacing = 0;
 			getShell().setLayout(gridLayout);
@@ -96,7 +96,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		private final int x;
 		private final int y;
 
-		SquareAppender(Map<Square, Button> lButtons, java.awt.Color color, int x, int y) {
+		SquareAppender(final Map<Square, Button> lButtons, final java.awt.Color color, final int x, final int y) {
 			this.lButtons = lButtons;
 			this.color = color;
 			this.x = x;
@@ -110,7 +110,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 
 		@Override
 		public void trun() {
-			Button button = new Button(getShell(), SWT.PUSH | SWT.FLAT);
+			final Button button = new Button(getShell(), SWT.PUSH | SWT.FLAT);
 			button.setSize(30, 30);
 			button.setBackground(fromAwt(color));
 			synchronized (lButtons) {
@@ -123,7 +123,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		private final IAction action;
 		private final Button button;
 
-		public SquareDisabler(Button button, IAction action) {
+		public SquareDisabler(final Button button, final IAction action) {
 			this.button = button;
 			this.action = action;
 		}
@@ -146,7 +146,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		private final Button button;
 		private final IAction old;
 
-		SquareEnabler(IAction action, Button button, IAction old) {
+		SquareEnabler(final IAction action, final Button button, final IAction old) {
 			this.action = action;
 			this.button = button;
 			this.old = old;
@@ -172,42 +172,45 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 
 	private final Shell shell = new Shell(Display.getDefault());
 
-	public SwtGuiAssistant(BoardGui parent) {
+	public SwtGuiAssistant(final BoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void addToHistory(String value, IAction action) {
+	public void addToHistory(final String value, final IAction action) {
 		throw new NotImplementedException();
 	}
 
-	public void appendSquares(Iterable<Square> squares, Dimension size) {
-		for (Square square : squares) {
-			int x = square.getX();
-			int y = size.height - square.getY() - 1;
+	@Override
+	public void appendSquares(final Iterable<Square> squares, final Dimension size) {
+		for (final Square square : squares) {
+			final int x = square.getX();
+			final int y = size.height - square.getY() - 1;
 			new SquareAppender(buttons, getParent().getSquareBgcolor(square), x, y).launch(shell.getDisplay());
 		}
 	}
 
+	@Override
 	public void clear() {
 		new ButtonClearer(buttons).launch(shell.getDisplay());
 
 		clearListeners();
 	}
 
+	@Override
 	public void close() {
 		shell.close();
 	}
 
-	protected abstract void decorate(Button button, PieceType piece, PlayerType player);
-
-	public void decorate(Square square, Piece piece) {
+	@Override
+	public void decorate(final Square square, final Piece piece) {
 		if (piece != null) {
-			Button button = getButton(square);
+			final Button button = getButton(square);
 			decorate(button, piece.getPieceType(), piece.getPlayerType());
 		}
 	}
 
+	@Override
 	public void disableSquare(final Square square) {
 		final IAction action = removeListener(square);
 		if (action != null) {
@@ -216,6 +219,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		}
 	}
 
+	@Override
 	public void enableSquare(final Square square, final IAction action) {
 		final IAction old = putListener(square, action);
 
@@ -225,12 +229,7 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		}
 	}
 
-	protected Color fromAwt(java.awt.Color awtColor) {
-		RGB rgb = new RGB(awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue());
-		return new Color(shell.getDisplay(), rgb);
-	}
-
-	public Button getButton(Square at) {
+	public Button getButton(final Square at) {
 		while (true) {
 			Button button;
 			synchronized (buttons) {
@@ -248,48 +247,34 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 		return shell;
 	}
 
+	@Override
 	public void initDisplay() {
 		initMenu();
 		shell.setText(getParent().getWindowTitle());
 
-		Dimension defaultSize = getParent().getDefaultSize();
+		final Dimension defaultSize = getParent().getDefaultSize();
 		shell.setSize(defaultSize.width, defaultSize.height);
 
-		Dimension minSize = getParent().getMinimumSize();
+		final Dimension minSize = getParent().getMinimumSize();
 		shell.setMinimumSize(minSize.width, minSize.height);
 	}
 
-	public void initLayout(Dimension size) {
+	@Override
+	public void initLayout(final Dimension size) {
 		new LayoutInitializer(size).launch(shell.getDisplay());
 	}
 
-	protected void initMenu() {
-		Menu menuBar = new Menu(shell, SWT.BAR);
-		MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-		fileMenuHeader.setText("&File");
-
-		Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
-		fileMenuHeader.setMenu(fileMenu);
-
-		MenuItem fileStartItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileStartItem.setText("New Local &Game");
-		fileStartItem.addSelectionListener(new StartAction(getParent()));
-
-		MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
-		fileExitItem.setText("E&xit");
-		fileExitItem.addSelectionListener(new ExitAction(getParent()));
-		shell.setMenuBar(menuBar);
-	}
-
+	@Override
 	public void refreshBoard() {
 		new ShellRedrawer().launch(shell.getDisplay());
 	}
 
+	@Override
 	public void start() {
 		initDisplay();
 		// SWT loop
 		shell.open();
-		Display display = shell.getDisplay();
+		final Display display = shell.getDisplay();
 
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -297,5 +282,30 @@ public abstract class SwtGuiAssistant extends AbstractGuiAssistant {
 			}
 		}
 		display.dispose();
+	}
+
+	protected abstract void decorate(Button button, PieceType piece, PlayerType player);
+
+	protected Color fromAwt(final java.awt.Color awtColor) {
+		final RGB rgb = new RGB(awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue());
+		return new Color(shell.getDisplay(), rgb);
+	}
+
+	protected void initMenu() {
+		final Menu menuBar = new Menu(shell, SWT.BAR);
+		final MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+		fileMenuHeader.setText("&File");
+
+		final Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
+		fileMenuHeader.setMenu(fileMenu);
+
+		final MenuItem fileStartItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileStartItem.setText("New Local &Game");
+		fileStartItem.addSelectionListener(new StartAction(getParent()));
+
+		final MenuItem fileExitItem = new MenuItem(fileMenu, SWT.PUSH);
+		fileExitItem.setText("E&xit");
+		fileExitItem.addSelectionListener(new ExitAction(getParent()));
+		shell.setMenuBar(menuBar);
 	}
 }

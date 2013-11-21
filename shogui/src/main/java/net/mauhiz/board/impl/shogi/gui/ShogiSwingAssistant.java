@@ -23,12 +23,12 @@ public class ShogiSwingAssistant extends PocketSwingGuiAssistant implements ISho
 
 	private static final Logger LOG = Logger.getLogger(ShogiSwingAssistant.class);
 
-	public ShogiSwingAssistant(PocketBoardGui parent) {
+	public ShogiSwingAssistant(final PocketBoardGui parent) {
 		super(parent);
 	}
 
 	@Override
-	public void decorate(RotatingJButton button, PieceType piece, PlayerType player) {
+	public void decorate(final RotatingJButton button, final PieceType piece, final PlayerType player) {
 		if (piece == null) {
 			button.setText("", false);
 		} else {
@@ -43,10 +43,6 @@ public class ShogiSwingAssistant extends PocketSwingGuiAssistant implements ISho
 	}
 
 	@Override
-	protected ShogiGui getParent() {
-		return (ShogiGui) super.getParent();
-	}
-
 	public void initPockets() {
 		JPanel pocket = newPocket();
 		boardAndPocketsPanel.add(pocket, 0);
@@ -58,18 +54,24 @@ public class ShogiSwingAssistant extends PocketSwingGuiAssistant implements ISho
 		LOG.debug("Init bottom pocket: " + pocket);
 	}
 
+	@Override
+	public void showPromotionDialog(final NormalMove move) {
+		LOG.debug("Showing promotion dialog for move: " + move);
+		final int result = JOptionPane.showConfirmDialog(null, "Promotion?", "Promotion?", JOptionPane.YES_NO_OPTION);
+		getParent().afterPromotionDialog(move, result == JOptionPane.YES_OPTION);
+	}
+
+	@Override
+	protected ShogiGui getParent() {
+		return (ShogiGui) super.getParent();
+	}
+
 	protected JPanel newPocket() {
-		JPanel pocket = new JPanel();
-		GridLayout layout = new GridLayout(1, 7);
+		final JPanel pocket = new JPanel();
+		final GridLayout layout = new GridLayout(1, 7);
 		pocket.setLayout(layout);
 		pocket.setSize(7 * 30, 30);
 		pocket.setToolTipText("Pocket");
 		return pocket;
-	}
-
-	public void showPromotionDialog(final NormalMove move) {
-		LOG.debug("Showing promotion dialog for move: " + move);
-		int result = JOptionPane.showConfirmDialog(null, "Promotion?", "Promotion?", JOptionPane.YES_NO_OPTION);
-		getParent().afterPromotionDialog(move, result == JOptionPane.YES_OPTION);
 	}
 }

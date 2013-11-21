@@ -1,0 +1,17 @@
+This is a simple example.
+
+==============================================
+<APPLET
+  CODEBASE = "."
+  CODE     = "kifuj.Applet1.class"
+  ARCHIVE  = "kifuj.jar"
+  WIDTH    = 580
+  HEIGHT   = 460
+  HSPACE   = 0
+  VSPACE   = 0
+  ALIGN    = middle
+>
+<PARAM NAME=KIFU VALUE="test.kif">      <- kifu file
+<PARAM NAME=HELP VALUE="kifujhelp.html"> <- Help file(option)
+</APPLET>
+==============================================

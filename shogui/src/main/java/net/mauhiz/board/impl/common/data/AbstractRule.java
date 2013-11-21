@@ -13,11 +13,12 @@ import org.apache.commons.lang.ObjectUtils;
 
 public abstract class AbstractRule implements Rule {
 
-	public Move generateMove(Square from, Square to, Game game) {
+	@Override
+	public Move generateMove(final Square from, final Square to, final Game game) {
 		if (!ObjectUtils.equals(to, from)) {
-			Board lastBoard = game.getLastBoard();
+			final Board lastBoard = game.getLastBoard();
 			NormalMove move;
-			Piece onTarget = lastBoard.getPieceAt(to);
+			final Piece onTarget = lastBoard.getPieceAt(to);
 			if (onTarget == null) {
 				move = new NormalMoveImpl(game.getTurn(), from, to);
 			} else {
@@ -33,7 +34,7 @@ public abstract class AbstractRule implements Rule {
 
 	protected abstract boolean isForward(Square from, Square to, PlayerType player);
 
-	protected boolean isFrontCorner(Square from, Square to, PlayerType player) {
+	protected boolean isFrontCorner(final Square from, final Square to, final PlayerType player) {
 		return AbstractBoard.isCorner(from, to) && isForward(from, to, player);
 	}
 }

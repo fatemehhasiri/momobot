@@ -29,7 +29,7 @@ public class RotatingJButton extends JButton {
 
 		@Override
 		public void mrun() {
-			Icon ti = getTextIcon();
+			final Icon ti = getTextIcon();
 			final Icon realIcon = flip ? getRotatedIcon(ti) : ti;
 
 			if (getIcon() != realIcon) {
@@ -41,7 +41,7 @@ public class RotatingJButton extends JButton {
 	class ButtonEnabler extends MonitoredRunnable {
 		private final boolean enabled;
 
-		ButtonEnabler(boolean enabled) {
+		ButtonEnabler(final boolean enabled) {
 			super("Button Toggler");
 			this.enabled = enabled;
 		}
@@ -65,7 +65,7 @@ public class RotatingJButton extends JButton {
 	class SetIcon extends AbstractNamedRunnable {
 		private final Icon realIcon;
 
-		SetIcon(String name, Icon realIcon) {
+		SetIcon(final String name, final Icon realIcon) {
 			super(name);
 			this.realIcon = realIcon;
 		}
@@ -90,14 +90,42 @@ public class RotatingJButton extends JButton {
 	String iconText = "";
 
 	@Override
-	public void addActionListener(ActionListener l) {
+	public void addActionListener(final ActionListener l) {
 		super.addActionListener(l);
 		if (!isEnabled()) {
 			setEnabled(true);
 		}
 	}
 
-	RotatedIcon getRotatedIcon(Icon normal) {
+	@Override
+	public void removeActionListener(final ActionListener l) {
+		super.removeActionListener(l);
+		if (getActionListeners().length == 0) {
+			setEnabled(false);
+		}
+	}
+
+	@Override
+	public void setEnabled(final boolean enabled) {
+		new ButtonEnabler(enabled).launch();
+	}
+
+	public void setText(final String iconText, final boolean flip) {
+		if (StringUtils.equals(iconText, this.iconText)) {
+			if (this.flip == flip) {
+				return;
+			}
+
+			if (StringUtils.isBlank(this.iconText)) {
+				return;
+			}
+		}
+		this.flip = flip;
+		this.iconText = iconText;
+		new ButtonDecorator().launch();
+	}
+
+	RotatedIcon getRotatedIcon(final Icon normal) {
 		synchronized (normal) {
 			RotatedIcon reverse = ROTATION_CACHE.get(normal);
 
@@ -115,7 +143,7 @@ public class RotatingJButton extends JButton {
 			TextIcon ti = ICON_CACHE.get(iconText);
 
 			if (ti == null) {
-				PerformanceMonitor pm = new PerformanceMonitor();
+				final PerformanceMonitor pm = new PerformanceMonitor();
 				ti = new HorizontalTextIcon(RotatingJButton.this, iconText);
 				ICON_CACHE.put(iconText, ti);
 				pm.perfLog("Text Icon '" + iconText + "' created", getClass());
@@ -125,35 +153,7 @@ public class RotatingJButton extends JButton {
 		}
 	}
 
-	@Override
-	public void removeActionListener(ActionListener l) {
-		super.removeActionListener(l);
-		if (getActionListeners().length == 0) {
-			setEnabled(false);
-		}
-	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		new ButtonEnabler(enabled).launch();
-	}
-
-	public void setText(String iconText, boolean flip) {
-		if (StringUtils.equals(iconText, this.iconText)) {
-			if (this.flip == flip) {
-				return;
-			}
-
-			if (StringUtils.isBlank(this.iconText)) {
-				return;
-			}
-		}
-		this.flip = flip;
-		this.iconText = iconText;
-		new ButtonDecorator().launch();
-	}
-
-	void superEnable(boolean enabled) {
+	void superEnable(final boolean enabled) {
 		super.setEnabled(enabled);
 	}
 }

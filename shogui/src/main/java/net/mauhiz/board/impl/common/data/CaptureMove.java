@@ -8,7 +8,7 @@ public class CaptureMove extends NormalMoveImpl {
 
 	private final PieceType captured;
 
-	public CaptureMove(PlayerType playerType, Square from, Square to, PieceType captured) {
+	public CaptureMove(final PlayerType playerType, final Square from, final Square to, final PieceType captured) {
 		super(playerType, from, to);
 		this.captured = captured;
 	}

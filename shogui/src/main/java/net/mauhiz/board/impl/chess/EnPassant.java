@@ -6,7 +6,7 @@ import net.mauhiz.board.model.data.Square;
 
 public class EnPassant extends NormalMoveImpl {
 
-	public EnPassant(PlayerType playerType, Square from, Square to) {
+	public EnPassant(final PlayerType playerType, final Square from, final Square to) {
 		super(playerType, from, to);
 	}
 

@@ -8,7 +8,7 @@ public class PromoteMove extends AbstractMove {
 	private final NormalMove parentMove;
 	private final ChessPieceType promotion;
 
-	public PromoteMove(NormalMove parentMove, ChessPieceType promotion) {
+	public PromoteMove(final NormalMove parentMove, final ChessPieceType promotion) {
 		super(parentMove.getPlayerType());
 		this.parentMove = parentMove;
 		this.promotion = promotion;

@@ -4,7 +4,7 @@ import net.mauhiz.board.impl.common.data.AbstractGame;
 
 public class GoGame extends AbstractGame {
 
-	public GoGame(GoRule rule) {
+	public GoGame(final GoRule rule) {
 		super(rule);
 	}
 }
