@@ -35,6 +35,7 @@ public class BncClientIO extends AbstractIrcIO {
         this.socket = socket;
     }
 
+    @Override
     public void disconnect() {
         status = IOStatus.DISCONNECTING;
         if (output != null) {
@@ -60,6 +61,7 @@ public class BncClientIO extends AbstractIrcIO {
 
     // private long connectionTime = System.currentTimeMillis();
 
+    @Override
     public IIrcServerPeer getServerPeer() {
         return null; // myself
     }

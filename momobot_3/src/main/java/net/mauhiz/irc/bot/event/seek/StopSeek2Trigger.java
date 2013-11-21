@@ -16,6 +16,7 @@ public class StopSeek2Trigger extends AbstractTextTrigger implements IPrivmsgTri
         super(trigger);
     }
 
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         IrcChannel chan = (IrcChannel) im.getTo();
         IChannelEvent evt = chan.getEvt();

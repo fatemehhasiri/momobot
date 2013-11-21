@@ -27,6 +27,7 @@ public class Md5Trigger extends AbstractTextTrigger implements IPrivmsgTrigger {
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         String content = getTriggerContent(cme);
 

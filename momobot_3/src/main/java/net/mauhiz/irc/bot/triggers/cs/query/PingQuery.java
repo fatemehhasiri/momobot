@@ -18,6 +18,7 @@ public class PingQuery extends AbstractQuery {
         super(server);
     }
 
+    @Override
     public void afterReceive(ByteBuffer result) {
         // ignore response
         server.setPing(sw.getTime());
@@ -30,6 +31,7 @@ public class PingQuery extends AbstractQuery {
         sw.start();
     }
 
+    @Override
     public ByteBuffer getCmd() {
         return FileUtil.ASCII.encode(Character.toString(A2A_PING));
     }

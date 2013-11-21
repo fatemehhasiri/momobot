@@ -14,6 +14,7 @@ public class WelcomeTrigger implements IJoinTrigger {
     /**
      * @see net.mauhiz.irc.base.trigger.IJoinTrigger#doTrigger(Join, IIrcControl)
      */
+    @Override
     public void doTrigger(Join im, IIrcControl control) {
         IrcUser joiner = im.getFrom();
         if (!joiner.equals(im.getServerPeer().getMyself())) {

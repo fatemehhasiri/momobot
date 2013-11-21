@@ -12,6 +12,7 @@ public class NoticeAuth extends AbstractIrcMessage {
         this.msg = msg;
     }
 
+    @Override
     public NoticeAuth copy() {
         return new NoticeAuth(server, msg);
     }

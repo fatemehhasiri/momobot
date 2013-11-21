@@ -28,6 +28,7 @@ public class WhoisTrigger extends AbstractTextTrigger implements IPrivmsgTrigger
      * 
      * @see net.mauhiz.irc.base.trigger.IJoinTrigger#doTrigger(Join, IIrcControl)
      */
+    @Override
     public void doTrigger(Join im, IIrcControl control) {
         WhoisRequest.startWhois(im.getServerPeer(), control, Collections.singleton(im.getFrom().getNick()), null);
     }
@@ -35,6 +36,7 @@ public class WhoisTrigger extends AbstractTextTrigger implements IPrivmsgTrigger
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg pme, IIrcControl control) {
         WhoisRequest.startWhois(pme.getServerPeer(), control, getArgs(pme), pme.getFrom());
     }

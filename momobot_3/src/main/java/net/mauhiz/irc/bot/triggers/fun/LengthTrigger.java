@@ -24,6 +24,7 @@ public class LengthTrigger extends AbstractTextTrigger implements IPrivmsgTrigge
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         String args = getTriggerContent(cme);
         if (StringUtils.isBlank(args)) {

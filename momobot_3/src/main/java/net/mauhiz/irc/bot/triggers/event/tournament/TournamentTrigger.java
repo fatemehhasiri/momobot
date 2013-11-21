@@ -24,6 +24,7 @@ public class TournamentTrigger extends AbstractTextTrigger implements IPrivmsgTr
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         IrcChannel chan = (IrcChannel) cme.getTo();
         IChannelEvent evt = chan.getEvt();

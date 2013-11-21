@@ -26,6 +26,7 @@ public class ServerMsg extends AbstractIrcMessage {
         this.args = args;
     }
 
+    @Override
     public IIrcMessage copy() {
         return new ServerMsg(server, from, code, args.copy(), msg);
     }

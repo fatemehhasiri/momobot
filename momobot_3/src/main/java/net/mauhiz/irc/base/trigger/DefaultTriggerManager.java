@@ -98,6 +98,7 @@ public class DefaultTriggerManager implements ITriggerManager {
         }
     }
 
+    @Override
     public MsgState processMsg(IIrcMessage msg, IIrcControl control) {
         if (msg == null) {
             LOG.warn("received null msg");

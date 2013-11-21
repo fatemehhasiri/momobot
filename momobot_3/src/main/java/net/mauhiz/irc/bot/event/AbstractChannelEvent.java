@@ -30,6 +30,7 @@ public abstract class AbstractChannelEvent implements IChannelEvent {
     /**
      * @see net.mauhiz.irc.bot.event.IChannelEvent#isRunning()
      */
+    @Override
     public boolean isRunning() {
         return running;
     }
@@ -37,6 +38,7 @@ public abstract class AbstractChannelEvent implements IChannelEvent {
     /**
      * @see net.mauhiz.irc.bot.event.IChannelEvent#stop()
      */
+    @Override
     public String stop() {
         running = false;
         return "Fin du " + getClass().getSimpleName() + " !";

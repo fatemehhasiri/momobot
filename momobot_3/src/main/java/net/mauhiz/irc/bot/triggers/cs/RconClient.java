@@ -53,6 +53,7 @@ class RconClient extends ValveUdpClient implements IRconClient {
      * @param rcon1
      *            le rcon
      */
+    @Override
     public void changeRcon(String rcon1) {
         if (StringUtils.isEmpty(rcon1)) {
             return;
@@ -67,6 +68,7 @@ class RconClient extends ValveUdpClient implements IRconClient {
      * @throws IOException
      *             en cas de pepin!
      */
+    @Override
     public void getRconChallenge() throws IOException {
         CharBuffer challengeResp = FileUtil.ASCII.decode(sendAndRcvValveCmd(CHALLENGE));
         rconChallenge = StringUtils.substringAfter(challengeResp.toString(), CHALLENGE + " ");
@@ -103,6 +105,7 @@ class RconClient extends ValveUdpClient implements IRconClient {
      * @param line
      *            la ligne a etudier
      */
+    @Override
     public void processLine(String line) {
         if (line.startsWith("log ")) {
             try {
@@ -204,6 +207,7 @@ class RconClient extends ValveUdpClient implements IRconClient {
      * @param cmd
      *            la commande rcon
      */
+    @Override
     public void rconCmd(String cmd) throws IOException {
         /* antiban */
         Objects.requireNonNull(rcon, "No defined rcon password");

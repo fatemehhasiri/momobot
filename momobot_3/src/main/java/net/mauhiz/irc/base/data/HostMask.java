@@ -54,6 +54,7 @@ public class HostMask implements Target {
         return host;
     }
 
+    @Override
     public String getIrcForm() {
         return nick + "!" + user + "@" + host;
     }

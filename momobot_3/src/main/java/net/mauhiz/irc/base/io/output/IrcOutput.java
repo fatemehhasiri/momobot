@@ -44,6 +44,7 @@ public class IrcOutput extends AbstractDaemon implements IIrcOutput, Closeable {
     /**
      * @see net.mauhiz.irc.base.io.output.IIrcOutput#isReady()
      */
+    @Override
     public boolean isReady() {
         return isRunning() && queue.size() <= MAX_SIZE;
     }
@@ -51,6 +52,7 @@ public class IrcOutput extends AbstractDaemon implements IIrcOutput, Closeable {
     /**
      * @see net.mauhiz.irc.base.io.output.IIrcOutput#sendRawMsg(java.lang.String)
      */
+    @Override
     public void sendRawMsg(String raw) {
         if (raw == null) {
             return;

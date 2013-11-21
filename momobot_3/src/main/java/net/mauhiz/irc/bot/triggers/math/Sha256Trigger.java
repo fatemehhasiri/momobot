@@ -50,6 +50,7 @@ public class Sha256Trigger extends AbstractTextTrigger implements IPrivmsgTrigge
     /**
      * MessageDigest
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         String args = getTriggerContent(cme);
 

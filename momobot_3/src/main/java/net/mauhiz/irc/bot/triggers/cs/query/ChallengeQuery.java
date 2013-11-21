@@ -17,11 +17,13 @@ public class ChallengeQuery extends AbstractQuery {
         super(server);
     }
 
+    @Override
     public void afterReceive(ByteBuffer result) {
         readByteAsChar(result); // skip char 'A'
         processChallenge(server, result);
     }
 
+    @Override
     public ByteBuffer getCmd() {
         return FileUtil.ASCII.encode(Character.toString(A2S_SERVERQUERY_GETCHALLENGE));
     }

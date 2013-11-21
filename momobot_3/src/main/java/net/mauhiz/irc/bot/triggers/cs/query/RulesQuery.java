@@ -16,6 +16,7 @@ public class RulesQuery extends AbstractQuery implements ServerFlags {
         super(server);
     }
 
+    @Override
     public void afterReceive(ByteBuffer result) {
         char state = readByteAsChar(result); // skip char 'D'
         if (state == S2C_CHALLENGE) { // response is not rules, but challenge
@@ -33,6 +34,7 @@ public class RulesQuery extends AbstractQuery implements ServerFlags {
         }
     }
 
+    @Override
     public ByteBuffer getCmd() {
         ByteBuffer cmd = FileUtil.ASCII.encode(Character.toString(A2S_RULES));
         ByteBuffer buf = ByteBuffer.allocate(cmd.limit() + 4);

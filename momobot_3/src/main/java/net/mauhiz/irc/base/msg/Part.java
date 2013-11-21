@@ -28,6 +28,7 @@ public class Part extends AbstractIrcMessage implements IrcChannelMessage {
         this(server, null, reason, fromChannels);
     }
 
+    @Override
     public Part copy() {
         return new Part(server, getFrom(), reason, fromChannels);
     }
@@ -36,6 +37,7 @@ public class Part extends AbstractIrcMessage implements IrcChannelMessage {
         return fromChannels;
     }
 
+    @Override
     public IrcChannel[] getChans() {
         return fromChannels;
     }

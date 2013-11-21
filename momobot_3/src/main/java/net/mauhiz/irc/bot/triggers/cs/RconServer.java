@@ -34,6 +34,7 @@ public class RconServer extends Server implements IRconServer {
      *            la nouvelle map
      * @return si on a effectivement change de map
      */
+    @Override
     public boolean changelevel(String newmap) throws IOException {
         if (newmap.equals(getMap())) {
             return false;
@@ -105,6 +106,7 @@ public class RconServer extends Server implements IRconServer {
      * @param delay
      *            le delai avant le restart
      */
+    @Override
     public void svRestart(int delay) throws IOException {
         setCvar("sv_restart", Integer.toString(delay));
     }

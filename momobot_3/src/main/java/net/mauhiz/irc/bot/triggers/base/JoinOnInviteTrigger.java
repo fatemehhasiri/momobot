@@ -15,6 +15,7 @@ public class JoinOnInviteTrigger implements IInviteTrigger {
     /**
      * On est sympa, on join tout.
      */
+    @Override
     public void doTrigger(Invite im, IIrcControl control) {
         Join join = new Join(im.getServerPeer(), im.getChan());
         control.sendMsg(join);

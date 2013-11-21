@@ -19,6 +19,7 @@ public abstract class AbstractIrcControl implements IIrcControl {
     /**
      * @see net.mauhiz.irc.base.IIrcControl#decodeIrcRawMsg(java.lang.String, net.mauhiz.irc.base.io.IIrcIO)
      */
+    @Override
     public void decodeIrcRawMsg(String raw, IIrcIO io) {
         IIrcServerPeer peer = io.getServerPeer();
         IIrcMessage msg = IrcDecoder.INSTANCE.buildFromRaw(peer, raw);
@@ -37,6 +38,7 @@ public abstract class AbstractIrcControl implements IIrcControl {
     /**
      * @return trigger manager
      */
+    @Override
     public ITriggerManager[] getManagers() {
         return managers;
     }

@@ -19,6 +19,7 @@ public class BncServer extends AbstractIrcNetwork {
         return 512;
     }
 
+    @Override
     public Collection<String> getServiceNicks() {
         return Collections.emptySet();
     }
@@ -28,10 +29,12 @@ public class BncServer extends AbstractIrcNetwork {
         LOG.warn("Unhandled command: " + message);
     }
 
+    @Override
     public IrcChannel newChannel(String chanLowerCase) {
         return null;
     }
 
+    @Override
     public BncUser newUser(String nick) {
         return null;
     }

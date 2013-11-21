@@ -139,6 +139,7 @@ public enum IrcDecoder implements IrcSpecialChars, IIrcDecoder {
      * @param raw
      * @return raw IRC msg
      */
+    @Override
     public IIrcMessage buildFromRaw(IIrcServerPeer server, String raw) {
         ArgumentList args = tokenizeArgs(raw);
         String next = args.peek();

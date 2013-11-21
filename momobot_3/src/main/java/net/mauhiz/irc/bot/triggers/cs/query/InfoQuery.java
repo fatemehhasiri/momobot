@@ -21,6 +21,7 @@ public class InfoQuery extends AbstractQuery implements ServerFlags {
         super(server);
     }
 
+    @Override
     public void afterReceive(ByteBuffer result) {
         // ignore response
         server.setPing(sw.getTime());
@@ -42,6 +43,7 @@ public class InfoQuery extends AbstractQuery implements ServerFlags {
         sw.start();
     }
 
+    @Override
     public ByteBuffer getCmd() {
         return FileUtil.ASCII.encode(A2S_INFO + QUERY);
     }

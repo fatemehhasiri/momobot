@@ -16,6 +16,7 @@ public class Whowas extends AbstractIrcMessage {
         this.target = target;
     }
 
+    @Override
     public Whowas copy() {
         return new Whowas(server, from, target);
     }

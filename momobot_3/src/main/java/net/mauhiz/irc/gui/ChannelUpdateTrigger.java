@@ -53,18 +53,22 @@ public class ChannelUpdateTrigger implements IJoinTrigger, IPartTrigger, IQuitTr
         userLists.put(channel, list);
     }
 
+    @Override
     public void doTrigger(Join im, IIrcControl control) {
         doUpdate(im.getChans());
     }
 
+    @Override
     public void doTrigger(Kick im, IIrcControl control) {
         doUpdate(im.getChans());
     }
 
+    @Override
     public void doTrigger(Part im, IIrcControl control) {
         doUpdate(im.getChans());
     }
 
+    @Override
     public void doTrigger(Quit im, IIrcControl control) {
         doUpdate((IrcChannel) null);
     }

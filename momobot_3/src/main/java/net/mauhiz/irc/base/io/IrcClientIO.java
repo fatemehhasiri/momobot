@@ -66,6 +66,7 @@ public class IrcClientIO extends AbstractIrcIO {
     /**
      * @see org.apache.commons.net.SocketClient#disconnect()
      */
+    @Override
     public void disconnect() {
         status = IOStatus.DISCONNECTING;
         if (output != null) {
@@ -84,6 +85,7 @@ public class IrcClientIO extends AbstractIrcIO {
         status = IOStatus.DISCONNECTED;
     }
 
+    @Override
     public IIrcServerPeer getServerPeer() {
         return (IIrcServerPeer) peer; // server is my partner.
     }

@@ -29,6 +29,7 @@ public class Mode extends AbstractIrcMessage implements IrcChannelMessage {
         this.modeArgs = modeArgs;
     }
 
+    @Override
     public Mode copy() {
         return new Mode(server, from, modifiedObject, modeArgs.copy());
     }
@@ -40,6 +41,7 @@ public class Mode extends AbstractIrcMessage implements IrcChannelMessage {
         return modeArgs.copy();
     }
 
+    @Override
     public IrcChannel[] getChans() {
         if (modifiedObject instanceof IrcChannel) {
             return new IrcChannel[] { (IrcChannel) modifiedObject };

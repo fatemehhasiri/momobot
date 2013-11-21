@@ -13,6 +13,7 @@ public abstract class AbstractPeer implements IrcPeer {
     /**
      * @see net.mauhiz.irc.base.data.IrcPeer#getAddress()
      */
+    @Override
     public InetSocketAddress getAddress() {
         return hostPort;
     }

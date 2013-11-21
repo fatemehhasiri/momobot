@@ -27,6 +27,7 @@ public abstract class AbstractIrcIO implements IIrcIO {
     /**
      * @see net.mauhiz.irc.base.io.IIrcIO#getStatus()
      */
+    @Override
     public IOStatus getStatus() {
         return status;
     }
@@ -34,6 +35,7 @@ public abstract class AbstractIrcIO implements IIrcIO {
     /**
      * @see net.mauhiz.irc.base.io.IIrcIO#processMsg(java.lang.String)
      */
+    @Override
     public void processMsg(String msg) {
         if (StringUtils.isEmpty(msg)) {
             return;
@@ -48,6 +50,7 @@ public abstract class AbstractIrcIO implements IIrcIO {
     /**
      * @see net.mauhiz.irc.base.io.IIrcIO#sendMsg(String)
      */
+    @Override
     public final void sendMsg(String msg) {
         int maxLen = peer.getNetwork().getLineMaxLength();
         String trimmedMsg = msg.length() > maxLen ? msg.substring(0, maxLen) : msg;
@@ -58,6 +61,7 @@ public abstract class AbstractIrcIO implements IIrcIO {
     /**
      * @see net.mauhiz.irc.base.io.IIrcIO#setStatus(IOStatus)
      */
+    @Override
     public void setStatus(IOStatus status) {
         this.status = status;
     }

@@ -35,14 +35,17 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         this.alias = alias;
     }
 
+    @Override
     public int countUsers() {
         return users.size();
     }
 
+    @Override
     public IrcChannel findChannel(String chanName) {
         return findChannel(chanName, true);
     }
 
+    @Override
     public IrcChannel findChannel(String chanName, boolean addIfNotFound) {
         //
         for (IrcChannel chan : channels) {
@@ -60,6 +63,7 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return null;
     }
 
+    @Override
     public IrcUser findUser(HostMask mask, boolean addIfNotFound) {
         String nick = mask.getNick();
         if (nick == null) {
@@ -80,6 +84,7 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return null;
     }
 
+    @Override
     public IrcUser findUser(String nick, boolean addIfNotFound) {
         if (nick.contains("!") || nick.contains(" ")) { // TODO better regexp
             throw new IllegalArgumentException("invalid nick : " + nick);
@@ -97,14 +102,17 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return newUser;
     }
 
+    @Override
     public String getAlias() {
         return alias;
     }
 
+    @Override
     public Iterable<IrcChannel> getChannels() {
         return channels;
     }
 
+    @Override
     public Set<IrcChannel> getChannelsForUser(IrcUser smith) {
         Set<IrcChannel> chans = new HashSet<>();
         for (IrcChannel chan : channels) {
@@ -115,6 +123,7 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return chans;
     }
 
+    @Override
     public int getLineMaxLength() {
         return 512;
     }
@@ -130,11 +139,13 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return users;
     }
 
+    @Override
     public final IIrcServerPeer newServerPeer() {
         Objects.requireNonNull(defaultUri);
         return new IrcServerPeer(this, defaultUri);
     }
 
+    @Override
     public final IIrcServerPeer newServerPeer(URI uri) {
         return new IrcServerPeer(this, uri);
     }
@@ -142,14 +153,17 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
     /**
      * @param channel
      */
+    @Override
     public void remove(IrcChannel channel) {
         channels.remove(channel);
     }
 
+    @Override
     public void remove(IrcUser quitter) {
         users.remove(quitter);
     }
 
+    @Override
     public void setDefaultUri(URI defaultUri) {
         this.defaultUri = defaultUri;
     }
@@ -162,6 +176,7 @@ public abstract class AbstractIrcNetwork implements IrcNetwork {
         return getAlias();
     }
 
+    @Override
     public void updateNick(IrcUser oldUser, String newNick) {
         if (oldUser == null) {
             /* we did not know him anyways. how so? */

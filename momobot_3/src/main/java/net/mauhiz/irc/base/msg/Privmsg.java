@@ -24,6 +24,7 @@ public class Privmsg extends AbstractPrivateIrcMessage {
         super(replyTo, respMsg, priv);
     }
 
+    @Override
     public Privmsg copy() {
         return new Privmsg(server, from, to, message);
     }

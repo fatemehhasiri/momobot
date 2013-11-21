@@ -25,6 +25,7 @@ public class KnownPlayersTrigger extends AbstractTextTrigger implements IPrivmsg
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg pme, IIrcControl control) {
         String msg = Messages.get(getClass(), "known.players", Integer.valueOf(PlayerDB.countPlayers())); //$NON-NLS-1$
         Privmsg retour = new Privmsg(pme, msg, true);

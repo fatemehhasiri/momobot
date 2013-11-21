@@ -62,6 +62,7 @@ public class IrcClientControl extends AbstractIrcControl implements IIrcClientCo
     /**
      * @see net.mauhiz.irc.base.IIrcControl#close()
      */
+    @Override
     public void close() {
         Collection<IIrcIO> ios = serverToIo.values();
         for (IIrcIO io : ios) {
@@ -70,6 +71,7 @@ public class IrcClientControl extends AbstractIrcControl implements IIrcClientCo
         serverToIo.clear();
     }
 
+    @Override
     public boolean connect(IIrcServerPeer peer) {
         IIrcIO existing = serverToIo.get(peer);
         if (existing != null) {
@@ -436,6 +438,7 @@ public class IrcClientControl extends AbstractIrcControl implements IIrcClientCo
         }
     }
 
+    @Override
     public void quit(IIrcServerPeer peer) {
         IIrcIO io = serverToIo.get(peer);
         if (io != null) {
@@ -447,6 +450,7 @@ public class IrcClientControl extends AbstractIrcControl implements IIrcClientCo
     /**
      * @see net.mauhiz.irc.base.IIrcControl#sendMsg(net.mauhiz.irc.base.msg.IIrcMessage)
      */
+    @Override
     public void sendMsg(IIrcMessage msg) {
         LOG.info(msg);
 

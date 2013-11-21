@@ -20,6 +20,7 @@ public class CountUsersTrigger extends AbstractTextTrigger implements IPrivmsgTr
     /**
      * @see IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         /* TODO cross server */
         Privmsg retour = new Privmsg(im, Messages.get(getClass(),

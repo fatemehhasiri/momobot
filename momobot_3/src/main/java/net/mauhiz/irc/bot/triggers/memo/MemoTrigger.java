@@ -21,6 +21,7 @@ public class MemoTrigger extends AbstractTextTrigger implements IPrivmsgTrigger 
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         ArgumentList msg = getArgs(cme);
         String respMsg;

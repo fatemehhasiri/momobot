@@ -25,12 +25,14 @@ public abstract class AbstractIrcMessage implements IIrcMessage {
     /**
      * @see net.mauhiz.irc.base.msg.IIrcMessage#getFrom()
      */
+    @Override
     public Target getFrom() {
         return from;
     }
 
     public abstract IrcCommands getIrcCommand();
 
+    @Override
     public String getIrcForm() {
         return ircFromDisplay() + getIrcCommand();
     }
@@ -38,6 +40,7 @@ public abstract class AbstractIrcMessage implements IIrcMessage {
     /**
      * @see net.mauhiz.irc.base.msg.IIrcMessage#getServerPeer()
      */
+    @Override
     public IIrcServerPeer getServerPeer() {
         return server;
     }

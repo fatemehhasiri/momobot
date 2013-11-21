@@ -64,6 +64,7 @@ class ValveUdpClient implements IClient {
      * @throws IOException
      *             houla, ca va mal
      */
+    @Override
     public void getInfo() throws IOException {
         doQuery(new InfoQuery(server));
     }
@@ -82,6 +83,7 @@ class ValveUdpClient implements IClient {
      * @throws IOException
      *             houla, ca va mal
      */
+    @Override
     public void getPlayers() throws IOException {
         doQuery(new PlayersQuery(server));
     }
@@ -91,6 +93,7 @@ class ValveUdpClient implements IClient {
      * @throws IOException
      *             houla, ca va mal
      */
+    @Override
     public void getRules() throws IOException {
         doQuery(new RulesQuery(server));
     }

@@ -25,6 +25,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#addBan(net.mauhiz.irc.base.data.HostMask)
      */
+    @Override
     public void addBan(HostMask ban) {
         bans.add(ban);
     }
@@ -32,6 +33,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#getBans()
      */
+    @Override
     public List<HostMask> getBans() {
         return bans;
     }
@@ -39,6 +41,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#getKey()
      */
+    @Override
     public String getKey() {
         return key;
     }
@@ -46,6 +49,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#getLimit()
      */
+    @Override
     public Integer getLimit() {
         return limit;
     }
@@ -53,6 +57,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#getTopic()
      */
+    @Override
     public Topic getTopic() {
         return topic;
     }
@@ -60,6 +65,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#isInviteOnly()
      */
+    @Override
     public boolean isInviteOnly() {
         return inviteOnly;
     }
@@ -67,6 +73,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#isModerated()
      */
+    @Override
     public boolean isModerated() {
         return moderated;
     }
@@ -74,6 +81,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#isNoExt()
      */
+    @Override
     public boolean isNoExt() {
         return noExt;
     }
@@ -81,6 +89,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#isOpTopic()
      */
+    @Override
     public boolean isOpTopic() {
         return opTopic;
     }
@@ -88,10 +97,12 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#isPrive()
      */
+    @Override
     public boolean isPrive() {
         return prive;
     }
 
+    @Override
     public void process(boolean set, UtfChar mode, String... args) {
         if (mode.isEquals('b')) {
             HostMask hm = HostMask.getInstance(args[0]);
@@ -120,6 +131,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setInviteOnly(boolean)
      */
+    @Override
     public void setInviteOnly(boolean inviteOnly) {
         this.inviteOnly = inviteOnly;
     }
@@ -127,6 +139,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setKey(java.lang.String)
      */
+    @Override
     public void setKey(String key) {
         this.key = key;
     }
@@ -134,6 +147,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setLimit(java.lang.Integer)
      */
+    @Override
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
@@ -141,6 +155,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setModerated(boolean)
      */
+    @Override
     public void setModerated(boolean moderated) {
         this.moderated = moderated;
     }
@@ -148,6 +163,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setNoExt(boolean)
      */
+    @Override
     public void setNoExt(boolean noExt) {
         this.noExt = noExt;
     }
@@ -155,6 +171,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setOpTopic(boolean)
      */
+    @Override
     public void setOpTopic(boolean opTopic) {
         this.opTopic = opTopic;
     }
@@ -162,6 +179,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setPrive(boolean)
      */
+    @Override
     public void setPrive(boolean prive) {
         this.prive = prive;
     }
@@ -169,6 +187,7 @@ public class ChannelProperties implements IChannelProperties {
     /**
      * @see net.mauhiz.irc.base.data.IChannelProperties#setTopic(net.mauhiz.irc.base.data.Topic)
      */
+    @Override
     public void setTopic(Topic topic) {
         this.topic = topic;
     }

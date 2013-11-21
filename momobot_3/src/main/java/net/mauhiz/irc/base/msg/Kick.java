@@ -21,6 +21,7 @@ public class Kick extends AbstractIrcMessage implements IrcChannelMessage {
         this.chan = chan;
     }
 
+    @Override
     public Kick copy() {
         return new Kick(server, from, chan, target, reason);
     }
@@ -29,6 +30,7 @@ public class Kick extends AbstractIrcMessage implements IrcChannelMessage {
         return chan;
     }
 
+    @Override
     public IrcChannel[] getChans() {
         return new IrcChannel[] { chan };
     }

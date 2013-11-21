@@ -34,6 +34,7 @@ public class SeekTrigger extends AbstractGourmandTrigger implements IPrivmsgTrig
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         if (isCommandMsg(im.getMessage())) {
             IrcChannel chan = (IrcChannel) im.getTo();

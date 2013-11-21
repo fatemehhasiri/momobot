@@ -26,6 +26,7 @@ public class MargueriteTrigger extends AbstractTextTrigger implements IPrivmsgTr
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         String nom = getTriggerContent(cme);
         Privmsg msg = new Privmsg(cme, generateResponse(nom));

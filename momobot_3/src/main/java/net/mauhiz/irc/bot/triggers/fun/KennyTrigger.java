@@ -191,6 +191,7 @@ public class KennyTrigger extends AbstractTextTrigger implements IPrivmsgTrigger
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         String args = getTriggerContent(im);
         if (StringUtils.isBlank(args)) {

@@ -23,6 +23,7 @@ public class Quit extends AbstractIrcMessage {
         message = reason;
     }
 
+    @Override
     public Quit copy() {
         return new Quit(server, from, message);
     }

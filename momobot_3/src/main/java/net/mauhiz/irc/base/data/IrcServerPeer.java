@@ -24,6 +24,7 @@ public class IrcServerPeer extends AbstractPeer implements IIrcServerPeer {
         this.network = network;
     }
 
+    @Override
     public String getIrcForm() {
         return ircForm;
     }
@@ -31,14 +32,17 @@ public class IrcServerPeer extends AbstractPeer implements IIrcServerPeer {
     /**
      * @return the myself
      */
+    @Override
     public IrcUser getMyself() {
         return myself;
     }
 
+    @Override
     public IrcNetwork getNetwork() {
         return network;
     }
 
+    @Override
     public IrcUser introduceMyself(String nick, String user, String fullName) {
         myself = network.newUser(nick);
         if (user != null) {
@@ -49,6 +53,7 @@ public class IrcServerPeer extends AbstractPeer implements IIrcServerPeer {
         return myself;
     }
 
+    @Override
     public void setIrcForm(String ircForm) {
         this.ircForm = ircForm;
     }

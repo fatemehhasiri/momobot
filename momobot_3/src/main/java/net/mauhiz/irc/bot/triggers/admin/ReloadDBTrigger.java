@@ -22,6 +22,7 @@ public class ReloadDBTrigger extends AbstractTextTrigger implements IPrivmsgTrig
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg pme, IIrcControl control) {
         HibernateUtils.closeSession();
         HibernateUtils.currentSession();

@@ -49,6 +49,7 @@ public class MassHlTrigger extends AbstractTextTrigger implements IPrivmsgTrigge
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         IrcChannel chan = (IrcChannel) cme.getTo();
         if (chan == null) {

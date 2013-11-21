@@ -22,6 +22,7 @@ public class Nick extends AbstractIrcMessage {
         this.newNick = newNick;
     }
 
+    @Override
     public Nick copy() {
         return new Nick(server, getFrom(), newNick);
     }

@@ -9,6 +9,7 @@ import net.mauhiz.irc.base.trigger.ITriggerManager;
  */
 public interface IIrcControl extends AutoCloseable {
 
+    @Override
     void close();
 
     /**

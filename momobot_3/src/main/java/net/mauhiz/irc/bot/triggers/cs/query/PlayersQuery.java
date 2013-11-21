@@ -17,6 +17,7 @@ public class PlayersQuery extends AbstractQuery implements ServerFlags {
         super(server);
     }
 
+    @Override
     public void afterReceive(ByteBuffer result) {
         char state = readByteAsChar(result); // skip char 'D'
         if (state == S2C_CHALLENGE) { // response is not players, but challenge
@@ -50,6 +51,7 @@ public class PlayersQuery extends AbstractQuery implements ServerFlags {
         server.resetPlayers();
     }
 
+    @Override
     public ByteBuffer getCmd() {
         ByteBuffer cmd = FileUtil.ASCII.encode(Character.toString(A2S_PLAYERS));
         ByteBuffer buf = ByteBuffer.allocate(cmd.limit() + 4);

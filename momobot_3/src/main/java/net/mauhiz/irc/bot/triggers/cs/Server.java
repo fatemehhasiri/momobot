@@ -71,6 +71,7 @@ public class Server implements IServer {
     /**
      * @return the challenge
      */
+    @Override
     public int getChallenge() {
         return challenge;
     }
@@ -86,6 +87,7 @@ public class Server implements IServer {
      * affiche les details du serveur. Voir <a href="http://developer.valvesoftware.com/wiki/Server_Queries#A2S_INFO">
      * VDW </a>
      */
+    @Override
     public void getDetails() throws IOException {
         try (IClient client = getClient()) {
             client.getInfo();
@@ -98,6 +100,7 @@ public class Server implements IServer {
     /**
      * @return ip
      */
+    @Override
     public String getIp() {
         return getIpay().getAddress().getHostAddress();
     }
@@ -106,6 +109,7 @@ public class Server implements IServer {
      * Assumes the ipay is a network ipay
      * @return ipay
      */
+    @Override
     public InetSocketAddress getIpay() {
         return (InetSocketAddress) ipay;
     }
@@ -113,6 +117,7 @@ public class Server implements IServer {
     /**
      * @return Returns the map.
      */
+    @Override
     public String getMap() {
         return map;
     }
@@ -127,6 +132,7 @@ public class Server implements IServer {
     /**
      * @return Returns the name.
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -169,6 +175,7 @@ public class Server implements IServer {
     /**
      * @return {@link #players}
      */
+    @Override
     public List<Player> getPlayers() {
         return players;
     }
@@ -176,10 +183,12 @@ public class Server implements IServer {
     /**
      * @return port
      */
+    @Override
     public int getPort() {
         return getIpay().getPort();
     }
 
+    @Override
     public void resetPlayers() {
         players.clear();
     }
@@ -188,6 +197,7 @@ public class Server implements IServer {
      * @param int1
      *            challenge
      */
+    @Override
     public void setChallenge(int int1) {
         challenge = int1;
     }
@@ -204,6 +214,7 @@ public class Server implements IServer {
      * @param map1
      *            The map to set.
      */
+    @Override
     public void setMap(String map1) {
         map = map1;
     }
@@ -212,6 +223,7 @@ public class Server implements IServer {
      * @param maxPlayers1
      *            le nombre maxi de players
      */
+    @Override
     public void setMaxPlayers(int maxPlayers1) {
         maxPlayers = maxPlayers1;
     }
@@ -220,6 +232,7 @@ public class Server implements IServer {
      * @param name1
      *            The name to set.
      */
+    @Override
     public void setName(String name1) {
         name = name1;
     }
@@ -236,6 +249,7 @@ public class Server implements IServer {
      * @param ping1
      *            The ping to set.
      */
+    @Override
     public void setPing(long ping1) {
         ping = ping1;
     }
@@ -244,6 +258,7 @@ public class Server implements IServer {
      * @param index
      * @param player
      */
+    @Override
     public void setPlayer(int index, Player player) {
         if (index > players.size()) {
             for (int i = players.size(); i < index; i++) {
@@ -262,6 +277,7 @@ public class Server implements IServer {
      * @param playerCount1
      *            le nombre de joueurs courants
      */
+    @Override
     public void setPlayerCount(int playerCount1) {
         playerCount = playerCount1;
     }

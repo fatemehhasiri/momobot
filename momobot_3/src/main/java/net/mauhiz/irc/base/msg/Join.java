@@ -31,10 +31,12 @@ public class Join extends AbstractIrcMessage implements IrcChannelMessage {
         this.chans = chans;
     }
 
+    @Override
     public Join copy() {
         return new Join(server, getFrom(), chans, keys);
     }
 
+    @Override
     public IrcChannel[] getChans() {
         return chans;
     }

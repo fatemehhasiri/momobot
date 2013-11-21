@@ -21,6 +21,7 @@ public class User extends AbstractIrcMessage {
         fullName = server.getMyself().getFullName();
     }
 
+    @Override
     public User copy() {
         return new User(server);
     }

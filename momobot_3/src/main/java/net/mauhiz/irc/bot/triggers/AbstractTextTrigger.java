@@ -62,6 +62,7 @@ public abstract class AbstractTextTrigger implements ITextTrigger, ICommand {
     /**
      * @see net.mauhiz.irc.bot.triggers.ICommand#getTriggerHelp()
      */
+    @Override
     public String getTriggerHelp() {
         return "Usage: " + triggerText;
     }
@@ -69,6 +70,7 @@ public abstract class AbstractTextTrigger implements ITextTrigger, ICommand {
     /**
      * @return {@link #triggerText}
      */
+    @Override
     public String getTriggerText() {
         return triggerText;
     }
@@ -84,6 +86,7 @@ public abstract class AbstractTextTrigger implements ITextTrigger, ICommand {
     /**
      * @see net.mauhiz.irc.base.trigger.ITextTrigger#isActivatedBy(java.lang.String)
      */
+    @Override
     public boolean isActivatedBy(String msg) {
         if (msg == null) {
             return false;

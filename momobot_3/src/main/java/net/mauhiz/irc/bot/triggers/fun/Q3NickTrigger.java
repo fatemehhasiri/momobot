@@ -74,6 +74,7 @@ public class Q3NickTrigger extends AbstractTextTrigger implements IPrivmsgTrigge
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         Privmsg msg = new Privmsg(im, createq3nick(getTriggerContent(im)));
         control.sendMsg(msg);

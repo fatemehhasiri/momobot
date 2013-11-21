@@ -15,6 +15,7 @@ public class Ping extends AbstractIrcMessage {
         this.pingId = pingId;
     }
 
+    @Override
     public Ping copy() {
         return new Ping(server, from, pingId);
     }

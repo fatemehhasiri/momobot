@@ -26,6 +26,7 @@ public class PenduTrigger extends AbstractGourmandTrigger implements IPrivmsgTri
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg cme, IIrcControl control) {
         if (cme.isToChannel()) {
             IrcChannel chan = (IrcChannel) cme.getTo();

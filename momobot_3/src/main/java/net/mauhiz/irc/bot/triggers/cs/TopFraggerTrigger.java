@@ -40,6 +40,7 @@ public class TopFraggerTrigger extends AbstractTextTrigger implements IPrivmsgTr
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         String args = getTriggerContent(im);
         if (StringUtils.isBlank(args)) {

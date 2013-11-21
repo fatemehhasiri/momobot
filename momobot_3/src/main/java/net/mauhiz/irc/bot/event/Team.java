@@ -74,6 +74,7 @@ public class Team implements Iterable<IrcUser> {
         return remainingPlaces() <= 0;
     }
 
+    @Override
     public Iterator<IrcUser> iterator() {
         return members.iterator();
     }

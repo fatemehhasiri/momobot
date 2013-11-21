@@ -60,6 +60,7 @@ public class HelpTrigger extends AbstractTextTrigger implements IPrivmsgTrigger,
     /**
      * @see net.mauhiz.irc.base.trigger.INoticeTrigger#doTrigger(Notice, IIrcControl)
      */
+    @Override
     public void doTrigger(Notice im, IIrcControl control) {
         SortedSet<String> cmds = listCmds(control, INoticeTrigger.class);
         int maxLen = im.getMaxPayload();
@@ -70,6 +71,7 @@ public class HelpTrigger extends AbstractTextTrigger implements IPrivmsgTrigger,
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         SortedSet<String> cmds = listCmds(control, IPrivmsgTrigger.class);
         int maxLen = im.getMaxPayload();

@@ -27,6 +27,7 @@ public class UrlHitterTrigger extends AbstractTextTrigger implements IPrivmsgTri
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(net.mauhiz.irc.base.msg.Privmsg,
      *      net.mauhiz.irc.base.IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         String urlStr = getTriggerContent(im);
         DefaultHttpClient client = new DefaultHttpClient();

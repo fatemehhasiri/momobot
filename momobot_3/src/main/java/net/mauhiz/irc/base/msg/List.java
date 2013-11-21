@@ -13,6 +13,7 @@ public class List extends AbstractIrcMessage {
         super(server, from);
     }
 
+    @Override
     public List copy() {
         return new List(server, from);
     }

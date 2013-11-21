@@ -30,6 +30,7 @@ public class BouncerTriggerManager extends DefaultTriggerManager implements Runn
     /**
      * @see java.lang.Runnable#run()
      */
+    @Override
     public void run() {
         while (true) {
             /* FIXME receive client msgs */

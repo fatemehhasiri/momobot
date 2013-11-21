@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public abstract class AbstractAction extends AbstractRunnable implements IAction, ISwtRunnable {
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         launch();
     }
@@ -19,14 +20,17 @@ public abstract class AbstractAction extends AbstractRunnable implements IAction
      * Use this method to launch without stop control.
      * @param display
      */
+    @Override
     public void launch(Display display) {
         ThreadManager.launch(this, display);
     }
 
+    @Override
     public void widgetDefaultSelected(SelectionEvent arg0) {
         // nothing
     }
 
+    @Override
     public void widgetSelected(SelectionEvent arg0) {
         launch(arg0.display);
     }

@@ -24,6 +24,7 @@ public abstract class AbstractPrivateIrcMessage extends AbstractIrcMessage imple
         this(toReply.getServerPeer(), null, !priv && toReply.isToChannel() ? toReply.getTo() : toReply.getFrom(), msg);
     }
 
+    @Override
     public IrcChannel[] getChans() {
         return isToChannel() ? new IrcChannel[] { (IrcChannel) to } : new IrcChannel[0];
     }
@@ -41,14 +42,17 @@ public abstract class AbstractPrivateIrcMessage extends AbstractIrcMessage imple
         return getServerPeer().getNetwork().getLineMaxLength() - getHeaderLength();
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public Target getTo() {
         return to;
     }
 
+    @Override
     public boolean isToChannel() {
         return to instanceof IrcChannel;
     }

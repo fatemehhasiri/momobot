@@ -24,6 +24,7 @@ public abstract class AbstractThread extends AbstractNamedRunnable implements ID
     /**
      * @see IDaemon#isRunning()
      */
+    @Override
     public boolean isRunning() {
         return running;
     }
@@ -31,6 +32,7 @@ public abstract class AbstractThread extends AbstractNamedRunnable implements ID
     /**
      * @see IDaemon#pause(long)
      */
+    @Override
     public void pause(long duree) {
         if (!ThreadUtils.safeSleep(duree)) {
             tstop();
@@ -51,11 +53,13 @@ public abstract class AbstractThread extends AbstractNamedRunnable implements ID
     /**
      * @deprecated call launch()
      */
+    @Override
     @Deprecated
     public void tstart() {
         new Thread(this).start();
     }
 
+    @Override
     public void tstop() {
         running = false;
     }

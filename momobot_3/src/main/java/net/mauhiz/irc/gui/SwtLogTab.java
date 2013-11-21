@@ -34,6 +34,7 @@ public class SwtLogTab extends AbstractSwtTab {
             this.swtIrcClient = swtIrcClient;
         }
 
+        @Override
         public void handleEvent(Event event) {
             IIrcServerPeer server = IrcServerFactory.createServer(connectField.getText());
             server.introduceMyself("momo", "mmb", "momobot le 3eme");

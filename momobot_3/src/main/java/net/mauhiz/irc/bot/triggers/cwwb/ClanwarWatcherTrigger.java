@@ -36,6 +36,7 @@ public class ClanwarWatcherTrigger implements IPrivmsgTrigger, IPartTrigger, IQu
     /**
      * @see net.mauhiz.irc.base.trigger.IPartTrigger#doTrigger(Part, IIrcControl)
      */
+    @Override
     public void doTrigger(Part im, IIrcControl control) {
         removeSeekFromUser(im.getFrom());
     }
@@ -43,6 +44,7 @@ public class ClanwarWatcherTrigger implements IPrivmsgTrigger, IPartTrigger, IQu
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg im, IIrcControl control) {
         String message = im.getMessage();
         // On ignore les messages trop courts pour etre utiles
@@ -67,6 +69,7 @@ public class ClanwarWatcherTrigger implements IPrivmsgTrigger, IPartTrigger, IQu
     /**
      * @see net.mauhiz.irc.base.trigger.IQuitTrigger#doTrigger(Quit, IIrcControl)
      */
+    @Override
     public void doTrigger(Quit im, IIrcControl control) {
         removeSeekFromUser((IrcUser) im.getFrom());
     }
@@ -74,6 +77,7 @@ public class ClanwarWatcherTrigger implements IPrivmsgTrigger, IPartTrigger, IQu
     /**
      * @see net.mauhiz.irc.base.trigger.ITextTrigger#isActivatedBy(java.lang.String)
      */
+    @Override
     public boolean isActivatedBy(String text) {
         return true;
     }

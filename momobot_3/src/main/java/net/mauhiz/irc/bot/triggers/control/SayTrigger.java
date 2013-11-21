@@ -23,6 +23,7 @@ public class SayTrigger extends AbstractTextTrigger implements IAdminTrigger, IP
     /**
      * @see net.mauhiz.irc.base.trigger.IPrivmsgTrigger#doTrigger(Privmsg, IIrcControl)
      */
+    @Override
     public void doTrigger(Privmsg pme, IIrcControl control) {
         ArgumentList args = getArgs(pme);
         String targetNick = args.poll();
