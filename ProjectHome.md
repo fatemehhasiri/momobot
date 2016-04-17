@@ -1,0 +1,1 @@
+MomoBot is a IRC framework, as well as a robot, a GUI and a bouncer.
